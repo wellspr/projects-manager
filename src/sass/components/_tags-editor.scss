@@ -1,6 +1,7 @@
 .listTags {
 
     display: flex;
+    flex-wrap: wrap;
 
     &__tag {
         display: flex;

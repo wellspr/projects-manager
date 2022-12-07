@@ -1,0 +1,23 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.input {
+    font-size: 1.75rem;
+    padding: 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba($color-primary-1-light, 1);
+    color: $color-primary-1-dark;
+
+    &__label {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    &:focus {
+        outline: solid $color-primary-4-dark;
+    }
+}

@@ -1,0 +1,63 @@
+@keyframes popup {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.alertBox {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(black, 0.85);
+    position: fixed;
+    z-index: 100;
+    top: 50vh;
+    left: 50vw;
+    transform: translateY(-50%) translateX(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgba(#000, 0.75);
+
+    &__box {
+        width: 500px;
+        height: 210px;
+        background-color: rgba(white, 1);
+        position: relative;
+        padding: 3rem;
+        border-radius: 5px;
+
+        animation: popup .3s ease-out;
+        
+        &__control {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            font-size: 2rem;
+        }
+    }
+}
+
+.alert {
+
+    margin-top: 2rem;
+    &__header {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    &__message {
+        font-size: 1.4rem;
+        line-height: 2;
+    }
+
+    &__btn:not(:last-child) {
+        margin-right: 5px;
+    }
+}

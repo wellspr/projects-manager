@@ -1,0 +1,27 @@
+.listTags {
+
+    display: flex;
+
+    &__tag {
+        display: flex;
+        justify-content: center;
+        padding: 1rem 1.4rem 1rem 2rem;
+        margin-right: 8px;
+        font-size: 1.8rem;
+        background-color: $tag-background-color;
+        border-radius: 5rem;
+        cursor: default;
+        margin-bottom: 8px;
+        color: rgba($tag-color, 0.85);
+
+        &__icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: inherit;
+            font-size: 1.6rem;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+    }
+}

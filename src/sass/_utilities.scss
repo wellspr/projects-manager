@@ -1,0 +1,48 @@
+.component-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1rem;
+    width: 95%;
+    max-width: $component-width;
+    align-self: center;
+}
+
+.component {
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        @include separator();
+        padding: 10px 0 15px 0;
+        
+        &__title {
+            font-size: 2rem;
+        }
+    }
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 2rem 0;
+
+    .control__btn:not(:last-child) {
+        margin-right: 2.8rem;
+    }
+}
+
+.danger-zone {
+    border: 1px solid $danger-color;
+    padding: 1rem;
+    border-radius: 5px;
+
+    display: flex;
+
+    &__text-wrapper {
+        margin: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+}

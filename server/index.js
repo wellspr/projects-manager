@@ -2,8 +2,12 @@ const { port, starter } = require("./config");
 
 const express = require("express");
 const projects = require("./db");
+const { Github, githubAuth } = require("./github");
+
 const app = express();
 app.use(express.json());
+
+const github = new Github();
 
 app.get("/projects", async (req, res) => {
     try {
@@ -49,6 +53,20 @@ app.delete("/projects/:id", async (req, res) => {
     } catch (err) {
         res.json(err);
     }
+});
+
+app.get("/auth/login", (req, res) => {
+    res.send(github.loginUrl());
+});
+
+app.get("/auth/callback", githubAuth, (req, res) => {
+    if (req.err) {
+        console.log(req.err);
+        return res.json(req.err);
+    }
+
+    console.log(req.user);
+    res.json(req.user);
 });
 
 app.listen(port, starter());

@@ -1,36 +1,37 @@
+// React Router Dom
 import { useOutletContext, useRevalidator } from "react-router-dom";
-import { githubAuth, users } from "../api";
-import Button from "./Button";
+
+// Icons
 import { HiOutlineUserCircle } from "react-icons/hi";
+
+// API
+import { githubAuth, users } from "../api";
+
+// Components
+import Button from "./Button";
+import Avatar from "./Avatar";
+
 
 const Menu = () => {
 
     const user = useOutletContext();
-
     const revalidator = useRevalidator();
-
-    console.log("USER: ", user);
 
     const DefaultIcon = () => {
         return <div className="menu__icon">
             <HiOutlineUserCircle size={30} />
         </div>
     };
-
-    const Avatar = () => {
-        return <img 
-            className="menu__img" 
-            src={user.avatarUrl} 
-            alt="Avatar" 
-            height="30px" 
-            width="30px"
-        />;
-    };
     
-    const loginButtonText = () => {
+    const loginButtonContent = () => {
         if (user) {
             if (user.avatarUrl) {
-                return <Avatar />;
+                return <Avatar 
+                    className="menu__img"
+                    size={30}
+                    src={user.avatarUrl}
+                    defaultElement={<DefaultIcon />}
+                />;
             }
             return <DefaultIcon />;
         }
@@ -55,23 +56,21 @@ const Menu = () => {
         users.logout().then(() => revalidator.revalidate());
     };
 
-    return (
-        <div className="menu">
-            { username() }
-            <Button 
-                type="login" 
-                onClick={() => {
-                    if (!user) {
-                        githubLogin();
-                    } else {
-                        logout();
-                    }
-                }}
-                >
-                { loginButtonText() }
-            </Button>            
-        </div>
-    );
+    return <div className="menu">
+        { username() }
+        <Button 
+            type="login" 
+            onClick={() => {
+                if (!user) {
+                    githubLogin();
+                } else {
+                    logout();
+                }
+            }}
+            >
+            { loginButtonContent() }
+        </Button>            
+    </div>;
 };
 
 export default Menu;

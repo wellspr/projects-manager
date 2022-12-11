@@ -33,6 +33,7 @@ const githubAuth = async function(req, res, next) {
     } else {
         const user = await github.getUser(response.access_token);
         req.user = user;
+        req.user.githubLogin = true;
     }
 
     next();

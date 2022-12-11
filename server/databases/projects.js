@@ -1,5 +1,5 @@
 const { Deta } = require("deta");
-const deta = Deta(process.env.project_key)
+const deta = Deta(process.env.PROJECT_KEY);
 const db = deta.Base("projects_db");
 
 const getProjects = async () => {
@@ -29,4 +29,5 @@ const projects = {
     updateProject, 
     deleteProject 
 };
+
 module.exports = projects;

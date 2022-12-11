@@ -1,10 +1,13 @@
 import { AiFillGithub } from "react-icons/ai";
 import { MdWeb } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "./Button";
 import Search from "./Search";
 
 const ListProjects = ({ projects }) => {
+
+    // Get data from session
+    const session = useOutletContext();
 
     const navigate = useNavigate();
 
@@ -18,6 +21,36 @@ const ListProjects = ({ projects }) => {
             </span>
         });
     };
+
+    const editAction = project => {
+        navigate(`/edit/${project.key}`);
+    };
+
+    const addAction = () => {
+        navigate("/create");
+    }
+
+    const renderEditButton = (project) => {
+
+        if (!session) return null;
+
+        return (
+            <div className="list__item__wrapper">
+                <Button 
+                    onClick={() => editAction(project)}
+                    type="action"
+                    >
+                    { "Edit" }
+                </Button>
+            </div>
+        );
+    };
+
+    const AddProjectButton = ({ children }) => {
+        if (!session) return null;
+
+        return <>{ children }</>
+    }
 
     const renderProjectsList = projects.map(project => {
         return <li key={project.key} className="list__item">
@@ -47,14 +80,7 @@ const ListProjects = ({ projects }) => {
                 <div className="list__item__tagsList">{ renderTags(project.tags) }</div>
             </div>
 
-            <div className="list__item__wrapper">
-                <Button 
-                    onClick={() => navigate(`/edit/${project.key}`)}
-                    type="action"
-                    >
-                    { "Edit" }
-                </Button>
-            </div>
+            { renderEditButton(project) }
         </li>
     });
 
@@ -62,9 +88,11 @@ const ListProjects = ({ projects }) => {
         <div className="component__header">
             <h2 className="component__header__title">Recent Projects</h2>
             <Search />
-            <Button type="action" className="menu__btn" onClick={() => navigate("/create")}>
-                { "Add New Project" }
-            </Button>
+            <AddProjectButton>
+                <Button type="action" className="menu__btn" onClick={addAction}>
+                    { "Add New Project" }
+                </Button>
+            </AddProjectButton>
         </div>
     
         <ul className="list">
@@ -72,9 +100,11 @@ const ListProjects = ({ projects }) => {
         </ul>
 
         <div className="controls">
-            <Button type="action" size="large" onClick={() => navigate("/create")}>
-                { "Add New Project" }
-            </Button>
+            <AddProjectButton>
+                <Button type="action" size="large" onClick={addAction}>
+                    { "Add New Project" }
+                </Button>
+            </AddProjectButton>
         </div>
     </div>;
 };

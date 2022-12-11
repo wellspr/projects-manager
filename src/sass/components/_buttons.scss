@@ -1,5 +1,4 @@
 .button {
-    
     background-color: rgba(0,0,0,0); //transparent
     border: none;
     color: rgba($button-font-color, 1);
@@ -39,5 +38,7 @@
         padding: 1.4rem 5rem;
     }
 
-    //&--login {}
+    &--login {
+        padding: 5px;
+    }
 }

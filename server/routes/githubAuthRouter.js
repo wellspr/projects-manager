@@ -36,9 +36,11 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
         const response = await createUser(newUser);
 
         // Create a new session in the database
+        delete response["key"];
         const session = await createSession(response);
 
-        res.cookie(process.env.PROJECTS_MANAGER, session.key);
+        // Send a cookie to the user's browser, along with the response.
+        res.cookie(process.env.COOKIE_NAME, session.key);
         res.json(response);
     }
      /** 
@@ -46,11 +48,14 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
      */
     if (count === 1) {
         // Create Session
-        const session = await createSession(items[0]);
+        console.log("HEADERS: ", req.headers);
+        const data = items[0];
+        delete data["key"];
+        const session = await createSession(data);
 
         // Send a cookie to the user's browser, along with the response.
-        res.cookie(process.env.PROJECTS_MANAGER, session.key);
-        res.json(items[0]);
+        res.cookie(process.env.COOKIE_NAME, session.key);
+        res.json(data);
     }
 });
 

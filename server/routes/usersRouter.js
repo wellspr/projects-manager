@@ -4,17 +4,19 @@ const { checkSession, destroySession } = require("../databases/sessions");
 const usersRouter = express.Router();
 
 usersRouter.get("/check-session", async (req, res) => {
-    if (req.cookies && req.cookies[process.env.PROJECTS_MANAGER]) {
-        const response = await checkSession(req.cookies[process.env.PROJECTS_MANAGER]);
-        res.json(response);
+    if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
+        const response = await checkSession(req.cookies[process.env.COOKIE_NAME]);
+        return res.json(response);
     }
+    return res.send(null);
 });
 
 usersRouter.get("/logout", async (req, res) => {
-    if (req.cookies && req.cookies[process.env.PROJECTS_MANAGER]) {
-        const response = await destroySession(req.cookies[process.env.PROJECTS_MANAGER]);
-        res.json(response);
+    if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
+        const response = await destroySession(req.cookies[process.env.COOKIE_NAME]);
+        return res.json(response);
     }
+    return res.send(null);
 });
 
 module.exports = usersRouter;

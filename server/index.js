@@ -1,4 +1,5 @@
 const { port, starter } = require("./config");
+const { checkSession } = require("./databases/sessions");
 
 const express = require("express");
 const cors = require("cors");
@@ -12,6 +13,15 @@ app.use(cors({
         "http://localhost:3000"
     ]
 }));
+
+app.use("/", async (req, res, next) => {
+    if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
+        const response = await checkSession(req.cookies[process.env.COOKIE_NAME]);
+        req.session = response;
+        console.log("CHECK SESSION: ", req.session);
+    }
+    next();
+});
 
 const routes = require("./routes");
 

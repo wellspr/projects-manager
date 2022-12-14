@@ -19,7 +19,7 @@ const createUser = async (user) => {
 };
 
 const updateUser = async (userId, updates) => {
-    return await db.put(updates, userId);
+    return await db.update(updates, userId);
 }
 
 const deleteUser = async (userId) => {

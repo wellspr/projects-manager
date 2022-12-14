@@ -18,7 +18,6 @@ app.use("/", async (req, res, next) => {
     if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
         const response = await checkSession(req.cookies[process.env.COOKIE_NAME]);
         req.session = response;
-        console.log("CHECK SESSION: ", req.session);
     }
     next();
 });

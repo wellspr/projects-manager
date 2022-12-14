@@ -1,13 +1,28 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { projects } from "../api";
-import AlertBox from "./AlertBox";
-import Button from "./Button";
-import Form from "./Form";
+// React Router Dom
+import { useLoaderData, useNavigate } from "react-router-dom";
 
-const EditProject = ({ project }) => {
+// React
+import { useEffect, useState } from "react";
+
+// Components
+import AlertBox from "../components/AlertBox";
+import Button from "../components/Button";
+import Form from "../components/Form";
+
+// API
+import { projects } from "../api";
+import Controls from "../components/Controls";
+import DangerZone from "../components/DangerZone";
+
+
+const EditProject = () => {
 
     const navigate = useNavigate();
+    const project = useLoaderData();
+
+    if (!project) {
+        throw new Error("Project not found");
+    }
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -15,19 +30,19 @@ const EditProject = ({ project }) => {
     const [techstack, setTechstack] = useState([]);
     const [githubLink, setGithubLink] = useState("");
     const [liveSite, setLiveSite] = useState("");
-    const [thumbnails, setThumbnails] = useState("");
+    const [thumbnails, setThumbnails] = useState([]);
     const [completed, setCompleted] = useState(false);
 
     const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
-        setTitle(project.title);
-        setDescription(project.description);
-        setTags(project.tags);
-        setTechstack(project.techstack);
-        setGithubLink(project.githubLink);
-        setLiveSite(project.liveSite);
-        setThumbnails(project.thumbnails);
+        setTitle(project.title || "");
+        setDescription(project.description || "");
+        setTags(project.tags || []);
+        setTechstack(project.techstack || []);
+        setGithubLink(project.githubLink || "");
+        setLiveSite(project.liveSite || "");
+        setThumbnails(project.thumbnails || []);
         setCompleted(project.completed);
     }, [project]);
 
@@ -40,9 +55,10 @@ const EditProject = ({ project }) => {
             githubLink,
             liveSite,
             thumbnails,
-            completed
+            completed,
+            dateModified: Date.now(),
         }, project.key)
-            .then(() => navigate("/"))
+            .then(() => navigate("/projects"))
             .catch(err => console.log(err));
     }
 
@@ -63,7 +79,7 @@ const EditProject = ({ project }) => {
             onSubmit={onSaveChanges} onSubmitLabel="Save Changes"
         />
 
-        <div className="controls">
+        <Controls>
             <Button 
                 type="action" 
                 size="large"
@@ -76,27 +92,17 @@ const EditProject = ({ project }) => {
                 type="action"
                 size="large"
                 className="control__btn"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/projects")}
                 >
                 { "Cancel" }
             </Button>
-        </div>
+        </Controls>
 
-        <div className="danger-zone">
-            <Button 
-                type="danger" 
-                size="large" 
-                onClick={() => { 
-                    setShowAlert(true);
-                }}
-                >
-                { "Delete Project" }
-            </Button>
-
-            <div className="danger-zone__text-wrapper">
-                <p>This will remove this project definitively.</p>
-            </div>
-        </div>
+        <DangerZone 
+            actionLabel="Delete Project"
+            message="This will remove this project definitively."
+            setShowAlert={setShowAlert}
+        />
 
         <AlertBox 
             show={showAlert}
@@ -112,7 +118,7 @@ const EditProject = ({ project }) => {
                     className="alert__btn"
                     onClick={() => {
                         projects.deleteProject(project.key)
-                        .then(r => navigate("/"))
+                        .then(r => navigate("/projects"))
                         .catch(err => console.log(err));
                     }}
                     >

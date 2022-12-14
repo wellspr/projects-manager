@@ -58,6 +58,7 @@
     }
 
     &__btn:not(:last-child) {
+        margin-top: 1rem;
         margin-right: 5px;
     }
 }

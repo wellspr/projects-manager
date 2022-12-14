@@ -9,11 +9,11 @@ class Github {
         this.clientId = clientId
     }
 
-    loginUrl() {
-        let loginUrl = new URL(`https://github.com/login/oauth/authorize`);
-        loginUrl.searchParams.set("client_id", this.clientId);
-        loginUrl.searchParams.set("scope", "user");
-        return loginUrl;
+    loginUrl(scope="") {
+        let url = new URL(`https://github.com/login/oauth/authorize`);
+        url.searchParams.set("client_id", this.clientId);
+        url.searchParams.set("scope", scope);
+        return url;
     }
 
     async getUser(access_token) {

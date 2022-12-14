@@ -17,4 +17,14 @@
     &__img {
         border-radius: 30px;
     }
+
+    &__nav {
+
+        margin-right: 3rem;
+
+        &__navlink {
+            font-size: 1.4rem;
+            margin: 0 1rem;
+        }
+    }
 }

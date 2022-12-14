@@ -1,5 +1,5 @@
 // React Router Dom
-import { useOutletContext, useRevalidator } from "react-router-dom";
+import { NavLink, useOutletContext, useRevalidator } from "react-router-dom";
 
 // Icons
 import { HiOutlineUserCircle } from "react-icons/hi";
@@ -10,12 +10,16 @@ import { githubAuth, users } from "../api";
 // Components
 import Button from "./Button";
 import Avatar from "./Avatar";
+import { useState } from "react";
 
 
 const Menu = () => {
 
     const user = useOutletContext();
+
     const revalidator = useRevalidator();
+
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const DefaultIcon = () => {
         return <div className="menu__icon">
@@ -46,7 +50,14 @@ const Menu = () => {
         }
     };
 
-    const githubLogin = () => {
+    const navButtons = () => {
+        return <div className="menu__nav">
+            <NavLink to={"/"} className="menu__nav__navlink">Home</NavLink>
+            <NavLink to={"/projects"} className="menu__nav__navlink">Projects</NavLink>
+        </div>;
+    };
+
+    const githubLogin = (window) => {
         githubAuth.githubLogin()
         .then(r => window.location.assign(r.data))
         .catch(err => console.log(err));
@@ -56,13 +67,17 @@ const Menu = () => {
         users.logout().then(() => revalidator.revalidate());
     };
 
+    const Dropdown = () => {};
+
     return <div className="menu">
-        { username() }
+        { navButtons() }
+        { //username() 
+        }
         <Button 
             type="login" 
             onClick={() => {
                 if (!user) {
-                    githubLogin();
+                    githubLogin(window);
                 } else {
                     logout();
                 }

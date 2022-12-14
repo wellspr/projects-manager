@@ -8,9 +8,18 @@ const {
     deleteProject 
 } = require("../databases/projects");
 
+projectsRouter.get("/user/:userId", async (req, res) => {
+    try {
+        const response = await getProjects(req.params.userId);
+        res.json(response.items); // array of project objects
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 projectsRouter.get("/", async (req, res) => {
     try {
-        const response = await getProjects();
+        const response = await getProjects(req.session.userId);
         res.json(response.items); // array of project objects
     } catch (err) {
         res.json(err);
@@ -18,7 +27,6 @@ projectsRouter.get("/", async (req, res) => {
 });
 
 projectsRouter.get("/:id", async (req, res) => {
-    console.log(req.params.id);
     try {
         const response = await getProject(req.params.id);
         res.json(response);

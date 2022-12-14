@@ -1,0 +1,21 @@
+.tags {
+    display: flex;
+    
+    &__item {
+        padding: 5px 2rem;
+        background-color: $tag-background-color;
+        margin: 5px;
+        border-radius: 3rem;
+        text-transform: capitalize;
+        color: rgba($tag-color, 0.85);
+        transition: all 0.3s;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:hover {
+            background-color: rgba($tag-background-color, 0.9);
+        }
+    }
+}

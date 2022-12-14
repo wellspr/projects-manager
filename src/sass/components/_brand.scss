@@ -1,5 +1,9 @@
 .brand {
     &__text {
         font-size: 2.3rem;
+
+        &--large {
+            font-size: 3.8rem;
+        }
     }
 }

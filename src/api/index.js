@@ -4,13 +4,21 @@ const api = axios.create({
     baseURL: "/projects"
 });
 
-const getProjects = async () => await api.get("/");
+const getProjectsByUserId = async (userId) => await api.get(`/user/${userId}`);
+const getProjects = async () => await api.get(`/`);
 const getProject = async (id) => await api.get(`/${id}`);
 const addProject = async (project) => await api.post("/", {project});
 const updateProject = async (updates, id) => await api.put(`/${id}`, {updates});
 const deleteProject = async (id) => await api.delete(`/${id}`);
 
-export const projects = { getProjects, getProject, addProject, updateProject, deleteProject };
+export const projects = { 
+    getProjectsByUserId,
+    getProjects,
+    getProject, 
+    addProject, 
+    updateProject, 
+    deleteProject 
+};
 
 
 const authApi = axios.create({

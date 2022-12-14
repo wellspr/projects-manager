@@ -3,7 +3,7 @@ const Input = ({
     label, 
     placeholder, 
     type="text", 
-    value, 
+    value="", 
     setValue 
 }) => {
     if (type === "description") {

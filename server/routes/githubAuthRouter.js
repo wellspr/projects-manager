@@ -36,6 +36,7 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
         const response = await createUser(newUser);
 
         // Create a new session in the database
+        response["userId"] = response.key
         delete response["key"];
         const session = await createSession(response);
 
@@ -48,8 +49,8 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
      */
     if (count === 1) {
         // Create Session
-        console.log("HEADERS: ", req.headers);
         const data = items[0];
+        data["userId"] = data.key;
         delete data["key"];
         const session = await createSession(data);
 

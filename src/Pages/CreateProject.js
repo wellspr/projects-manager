@@ -1,12 +1,22 @@
+// React
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+// React Router Dom
+import { useNavigate, useOutletContext } from "react-router-dom";
+
+// Components
+import Button from "../components/Button";
+import Form from "../components/Form";
+
+// API
 import { projects } from "../api";
-import Button from "./Button";
-import Form from "./Form";
+import Controls from "../components/Controls";
+
 
 const CreateProject = () => {
 
     const navigate = useNavigate();
+    const session = useOutletContext();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -14,11 +24,10 @@ const CreateProject = () => {
     const [techstack, setTechstack] = useState([]);
     const [githubLink, setGithubLink] = useState("");
     const [liveSite, setLiveSite] = useState("");
-    const [thumbnails, setThumbnails] = useState("");
+    const [thumbnails, setThumbnails] = useState([]);
     const [completed, setCompleted] = useState(false);
 
     const onAddProject = () => {
-        const d = new Date();
         projects.addProject({
             title,
             description,
@@ -28,9 +37,11 @@ const CreateProject = () => {
             liveSite,
             thumbnails,
             completed,
-            dateAded: d.getTime()
+            dateAdded: Date.now(),
+            dateModified: null,
+            userId: session.userId,
         })
-        .then(() => navigate("/"))
+        .then(() => navigate("/projects"))
         .catch(err => console.log(err));
     };
 
@@ -49,13 +60,13 @@ const CreateProject = () => {
             completed={completed} setCompleted={setCompleted}
             onSubmit={onAddProject} onSubmitLabel="Add Project"
         />
-        <div className="controls">
+        <Controls>
             <Button 
                 type="action" 
                 size="large"
                 className="control__btn"
-                onClick={onAddProject}
                 disabled={!title.length?true:false}
+                onClick={onAddProject}
                 >
                 { "Add Project" }
             </Button>
@@ -63,11 +74,11 @@ const CreateProject = () => {
                 type="action"
                 size="large"
                 className="control__btn"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/projects")}
                 >
                 { "Cancel" }
             </Button>
-        </div>
+        </Controls>
     </div>;
 };
 

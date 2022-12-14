@@ -1,0 +1,10 @@
+.error {
+    margin: 1rem;
+    &__header {
+        font-size: 2.5rem;
+    }
+
+    &__message {
+        font-size: 1.5rem;
+    }
+}

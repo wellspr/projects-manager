@@ -2,8 +2,8 @@ const { Deta } = require("deta");
 const deta = Deta(process.env.PROJECT_KEY);
 const db = deta.Base("projects_db");
 
-const getProjects = async () => {
-    return await db.fetch();
+const getProjects = async (userId) => {
+    return await db.fetch({ userId });
 };
 
 const getProject = async (id) => {
@@ -15,7 +15,7 @@ const addProject = async (project) => {
 };
 
 const updateProject = async (updates, id) => {
-    return await db.put(updates, id);
+    return await db.update(updates, id);
 };
 
 const deleteProject = async (id) => {

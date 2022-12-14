@@ -1,5 +1,4 @@
 import { useLoaderData } from "react-router-dom";
-import Page from "../Layout/Page";
 
 const Response = () => {
 
@@ -16,9 +15,7 @@ const Response = () => {
         }
     };
 
-    return <Page>
-        { renderLoginResult() }
-    </Page>;
+    return renderLoginResult();
 };
 
 export default Response;

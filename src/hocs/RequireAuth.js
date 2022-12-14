@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { Outlet, useLoaderData, useRevalidator } from "react-router-dom";
+import Auth from "../Pages/Auth";
 
 const RequireAuth = () => {
 
-    const data = useLoaderData();
+    const session = useLoaderData();
+
+    console.log(session);
 
     const revalidator = useRevalidator();
 
@@ -15,14 +18,22 @@ const RequireAuth = () => {
 
         window.addEventListener("focus", onFocus);
 
-        return () => {
-            window.removeEventListener("focus", onFocus);
-        }
+        return () => window.removeEventListener("focus", onFocus);
+
     }, [revalidator]);
 
-    return <div className="auth">
-        <Outlet context={data} />
-    </div>
+    const renderApp = () => {
+
+        if (!session) {
+            return (
+                <Auth />
+            );
+        }
+
+        return <Outlet context={ session } />;
+    }
+
+    return renderApp();
 };
 
 export default RequireAuth;

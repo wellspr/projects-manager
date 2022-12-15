@@ -1,0 +1,12 @@
+.dropdown-wrapper {
+	position: relative;
+}
+
+.dropdown {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: $color-primary-1-light;
+	color: $color-primary-1-dark;
+	padding: 0 1rem;
+}

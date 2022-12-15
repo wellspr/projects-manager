@@ -1,13 +1,19 @@
-.menu {
+.menu-wrapper {
+    display: flex;
+    flex-direction: column;
+}
 
+.menu {
     display: flex;
     align-items: center;
     height: 3.8rem;
     color: inherit;
 
+    position: relative;
+
     &__username {
-        font-size: 1.5rem;
-        margin: 0 10px;
+        font-size: 1.2rem;
+        margin: 1rem;
     }
 
     &__icon {
@@ -20,11 +26,12 @@
 
     &__nav {
 
-        margin-right: 3rem;
+        margin-right: 1rem;
 
         &__navlink {
             font-size: 1.4rem;
             margin: 0 1rem;
+            //color: $button-font-color;
         }
     }
 }

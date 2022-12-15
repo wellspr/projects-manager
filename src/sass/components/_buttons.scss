@@ -38,7 +38,22 @@
         padding: 1.4rem 5rem;
     }
 
-    &--login {
+    &--dropdown {
         padding: 5px;
+    }
+    
+    &--dropdown-item {
+        background-color: rgba(0,0,0,0); //transparent
+        border: none;
+        color: rgba($button-font-color-dark, 1);
+        cursor: pointer;
+        transition: all 0.3s;
+        
+        padding: 1rem;
+        font-size: 1.4rem;
+        
+        &:hover {
+            color: rgba($button-font-color-dark, 0.75);
+        }
     }
 }

@@ -5,12 +5,12 @@ import { NavLink, useOutletContext, useRevalidator } from "react-router-dom";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
 // API
-import { githubAuth, users } from "../api";
+import { users } from "../api";
 
 // Components
-import Button from "./Button";
 import Avatar from "./Avatar";
-import { useState } from "react";
+import DropdownButton from "./DropdownButton";
+import Button from "./Button";
 
 
 const Menu = () => {
@@ -19,15 +19,13 @@ const Menu = () => {
 
     const revalidator = useRevalidator();
 
-    const [showDropdown, setShowDropdown] = useState(false);
-
     const DefaultIcon = () => {
         return <div className="menu__icon">
             <HiOutlineUserCircle size={30} />
         </div>
     };
-    
-    const loginButtonContent = () => {
+
+    const buttonContent = () => {
         if (user) {
             if (user.avatarUrl) {
                 return <Avatar 
@@ -50,41 +48,37 @@ const Menu = () => {
         }
     };
 
-    const navButtons = () => {
+    const dropdownContent = () => {
+        return <>
+            { username() }
+            <Button 
+                type="dropdown-item"
+                onClick={() => logout()}
+                >
+                { "Logout" }
+            </Button>
+        </>;
+    }
+
+    const logout = () => {
+        users.logout().then(() => revalidator.revalidate());
+    };
+
+    const NavButtons = () => {
         return <div className="menu__nav">
             <NavLink to={"/"} className="menu__nav__navlink">Home</NavLink>
             <NavLink to={"/projects"} className="menu__nav__navlink">Projects</NavLink>
         </div>;
     };
 
-    const githubLogin = (window) => {
-        githubAuth.githubLogin()
-        .then(r => window.location.assign(r.data))
-        .catch(err => console.log(err));
-    };
-
-    const logout = () => {
-        users.logout().then(() => revalidator.revalidate());
-    };
-
-    const Dropdown = () => {};
-
-    return <div className="menu">
-        { navButtons() }
-        { //username() 
-        }
-        <Button 
-            type="login" 
-            onClick={() => {
-                if (!user) {
-                    githubLogin(window);
-                } else {
-                    logout();
-                }
-            }}
-            >
-            { loginButtonContent() }
-        </Button>            
+    return <div className="menu-wrapper">
+        <div className="menu">
+            <NavButtons />
+            <DropdownButton 
+                buttonContent={buttonContent}
+                dropdownContent={dropdownContent}
+            />
+        </div>
     </div>;
 };
 

@@ -51,10 +51,10 @@ const Menu = () => {
     const dropdownContent = () => {
         return <>
             { username() }
-            <Button 
-                type="dropdown-item"
-                onClick={() => logout()}
-                >
+            <Button type="dropdown-item">
+                <NavLink to="settings">Settings</NavLink>
+            </Button>
+            <Button type="dropdown-item" onClick={() => logout()}>
                 { "Logout" }
             </Button>
         </>;

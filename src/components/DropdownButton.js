@@ -1,10 +1,16 @@
 // React
 import React, { useRef, useState, useEffect, forwardRef } from "react";
 
+// React Router Dom
+import { useLocation } from "react-router-dom";
+
 // Components
 import Button from "./Button";
 
+
 const DropdownButton = ({ buttonContent, dropdownContent }) => {
+
+    const location = useLocation();
 
 	const buttonRef = useRef(null);
     const dropdownRef = useRef(null);
@@ -12,8 +18,8 @@ const DropdownButton = ({ buttonContent, dropdownContent }) => {
     const [show, setShow] = useState(false);
 
     useEffect (() => {
-        const dropdownCurrentRef = dropdownRef && dropdownRef.current;
         const buttonCurrentRef = buttonRef && buttonRef.current;
+        const dropdownCurrentRef = dropdownRef && dropdownRef.current;
         
 		const onClickBody = e => {
 			if (buttonCurrentRef && dropdownCurrentRef) {
@@ -28,6 +34,8 @@ const DropdownButton = ({ buttonContent, dropdownContent }) => {
 
         return () => document.body.removeEventListener("click", onClickBody);
     }, [show, setShow]);
+
+    useEffect(() => setShow(false), [location]);
 
 	return (
 		<div className="dropdown__button" ref={buttonRef}>

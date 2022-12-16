@@ -34,6 +34,7 @@ import Loading from "./components/Loading";
 
 // Layout
 import Page from "./Layout/Page";
+import Settings from "./Pages/Settings";
 
 
 const router = createBrowserRouter(
@@ -106,6 +107,11 @@ const router = createBrowserRouter(
                         return response.data;
                     }}
                     errorElement={<Error />}
+                />
+
+                <Route 
+                    path="settings"
+                    element={<Settings />}
                 />
 
             </Route>

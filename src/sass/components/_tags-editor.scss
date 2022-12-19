@@ -9,11 +9,10 @@
         padding: 1rem 1.4rem 1rem 2rem;
         margin-right: 8px;
         font-size: 1.8rem;
-        background-color: $tag-background-color;
         border-radius: 5rem;
         cursor: default;
         margin-bottom: 8px;
-        color: rgba($tag-color, 0.85);
+        transition: all 0.3s;
 
         &__icon {
             display: flex;

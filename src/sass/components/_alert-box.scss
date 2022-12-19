@@ -57,8 +57,15 @@
         line-height: 2;
     }
 
-    &__btn:not(:last-child) {
+    &__controls {
+        display: flex;
+    }
+
+    &__btn {
         margin-top: 1rem;
+    }
+    
+    &__btn:not(:last-child) {
         margin-right: 5px;
     }
 }

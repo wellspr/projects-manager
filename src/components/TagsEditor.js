@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-const TagsEditor = ({ tags, setTags }) => {
+const TagsEditor = ({ tags, setTags, theme }) => {
     
     const [newTag, setNewTag] = useState("");
 
@@ -9,7 +9,7 @@ const TagsEditor = ({ tags, setTags }) => {
         if (tags.length === 0) return null;
         return <span 
             key={`${index}-${tag}`}
-            className="listTags__tag"
+            className={`listTags__tag listTags__tag--theme__${theme}`}
             >
             {tag.name} 
             <div 
@@ -43,7 +43,7 @@ const TagsEditor = ({ tags, setTags }) => {
         <div className="listTags">{ renderTags }</div>
         <input
             id="tags-input" 
-            className="input"
+            className={`input input--theme__${theme}`}
             placeholder="Add Tag"
             value={newTag}
             onChange={e => setNewTag(e.target.value)}

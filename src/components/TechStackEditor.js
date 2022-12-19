@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 const TechStackEditor = ({ techstack, setTechstack }) => {
+
+    const { theme } = useOutletContext();
 
     const [tech, setTech] = useState("");
 
@@ -25,7 +28,7 @@ const TechStackEditor = ({ techstack, setTechstack }) => {
         <div className="listTechStack">{ renderTechStack }</div>
         <input 
             id="tech-stack"
-            className="input"
+            className={`input input--theme__${theme}`}
             placeholder="Add Tech"
             value={tech}
             onChange={e => setTech(e.target.value)}

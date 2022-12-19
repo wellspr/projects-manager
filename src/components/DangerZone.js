@@ -1,11 +1,12 @@
 import Button from "./Button";
 
-const DangerZone = ({ actionLabel, message, setShowAlert }) => {
+const DangerZone = ({ actionLabel, message, setShowAlert, theme }) => {
 	return (
 		<div className="danger-zone">
             <Button 
                 type="danger" 
                 size="large" 
+                theme={theme}
                 onClick={() => { 
                     setShowAlert(true);
                 }}

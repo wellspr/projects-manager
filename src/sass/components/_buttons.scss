@@ -1,36 +1,19 @@
 .button {
     background-color: rgba(0,0,0,0); //transparent
     border: none;
-    color: rgba($button-font-color, 1);
-    cursor: pointer;
     transition: all 0.3s;
+    cursor: pointer;
     
     border-radius: 5rem;
-    padding: 1rem 3rem;
     font-size: 1.4rem;
+    padding: 1rem;
     
-    &--action {
-        background-color: rgba($action-button-background-color, 1);
-        
-        &:hover {
-            color: rgba($button-font-color, 0.55);
-            background-color: rgba($action-button-background-color, 0.55);
-        }
-
-        &:disabled {
-            color: rgba($button-font-color, 0.3);
-            background-color: rgba($action-button-background-color, 0.3);
-        }
-    }
-
-    &--danger {
-        background-color: $danger-button-background-color;
-        color: $button-font-color;
-
-        &:hover {
-            color: rgba($button-font-color, 0.85);
-            background-color: rgba($danger-button-background-color, 0.9);
-        }
+    display: flex;
+    justify-content: safe;
+    //align-items: center;
+    
+    &--action, &--danger {
+        padding: 1rem 3rem;
     }
 
     &--large {
@@ -43,17 +26,11 @@
     }
     
     &--dropdown-item {
-        background-color: rgba(0,0,0,0); //transparent
         border: none;
-        color: rgba($button-font-color-dark, 1);
         cursor: pointer;
         transition: all 0.3s;
-        
         padding: 5px 1rem;
         font-size: 1.4rem;
-        
-        &:hover {
-            color: rgba($button-font-color-dark, 0.75);
-        }
     }
+
 }

@@ -7,7 +7,7 @@ import Button from "./Button";
 import Tags from "./Tags";
 
 
-const List = ({ projects }) => {
+const List = ({ projects, theme }) => {
 
     const renderProjectsList = projects.length
     ?
@@ -15,7 +15,7 @@ const List = ({ projects }) => {
 
         const d = project.dateAdded && new Date(project.dateAdded);
 
-        return <li key={project.key} className="list__item">
+        return <li key={project.key} className={`list__item list__item--theme__${theme}`}>
             <div className="list__item__wrapper list__item__wrapper__grow">
                 <h3 className="list__item__title">{ project.title }</h3>
                 <p className="list__item__desc">{ project.description }</p>
@@ -42,10 +42,10 @@ const List = ({ projects }) => {
 
                 { d && <p>Added: { d.toLocaleDateString() }</p> }
 
-                <Tags tags={project.tags} />
+                <Tags tags={project.tags} theme={theme} />
             </div>
             <div className="list__item__wrapper">
-                <EditProjectButton project={project} />
+                <EditProjectButton project={project} theme={theme} />
             </div>
         </li>
     })
@@ -58,11 +58,12 @@ const List = ({ projects }) => {
 };
 
 
-const EditProjectButton = ({ project }) => {
+const EditProjectButton = ({ project, theme }) => {
     const navigate = useNavigate();
     
     return <Button 
 		type="action"
+        theme={theme}
         onClick={() => navigate(`/projects/edit/${project.key}`)}
         >
         { "Edit" }

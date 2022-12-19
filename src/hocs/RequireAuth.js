@@ -1,12 +1,18 @@
+// React
 import { useEffect } from "react";
+
+// React Router Dom
 import { Outlet, useLoaderData, useRevalidator } from "react-router-dom";
+
+// Pages
 import Auth from "../Pages/Auth";
+
 
 const RequireAuth = () => {
 
     const session = useLoaderData();
 
-    console.log(session);
+    const theme = (session && session.theme) || "dark";
 
     const revalidator = useRevalidator();
 
@@ -26,7 +32,7 @@ const RequireAuth = () => {
 
         if (!session) {
             return (
-                <Auth />
+                <Auth theme={theme} />
             );
         }
 

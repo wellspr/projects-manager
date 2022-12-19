@@ -8,8 +8,11 @@ import Button from "../components/Button";
 // API
 import { githubAuth } from "../api";
 
+// SVG Image
+import svgImage from "../images/programmer.svg";
 
-const Auth = () => {
+
+const Auth = ({ theme }) => {
 
 	const githubLogin = (window) => {
         githubAuth.githubLogin()
@@ -19,12 +22,20 @@ const Auth = () => {
         .catch(err => console.log(err));
     };
 
-	return <div className="auth">
+	const Image = ({ svg }) => {
+		return <div style={{ marginBottom: "3rem" }}>
+			<img src={svg} alt={"svg"} height={200} />
+		</div>
+	};
+
+	return <div className={`auth auth--theme__${theme}`}>
+		<Image svg={svgImage} />
 		<Brand size="large" />
 		<Button 
 			className="auth__button"
 			size="large" 
 			type="action" 
+			theme={theme}
 			onClick={() => githubLogin(window)} 
 			>
 			<Content />

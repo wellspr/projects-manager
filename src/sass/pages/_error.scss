@@ -1,10 +1,37 @@
 .error {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-grow: 1;
     margin: 1rem;
+
     &__header {
-        font-size: 2.5rem;
+        font-size: 4.1rem;
+    }
+
+    &__image {
+        padding: 2rem;
     }
 
     &__message {
-        font-size: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+        font-size: 2.1rem;
+
+        &--primary {
+            font-size: 3.8rem;
+        }
+
+        &--secondary {
+            font-size: 1.8rem;
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+        }
     }
 }

@@ -1,3 +1,9 @@
-@mixin separator() {
-    border-bottom: 1px solid $color-primary-1-light;
+@mixin separator($theme) {
+
+    @if $theme == "light" {
+        border-bottom: 1px solid $color-primary-1-dark;
+    } @else if $theme == "dark" {
+        border-bottom: 1px solid $color-primary-1-light;
+    }
+
 }

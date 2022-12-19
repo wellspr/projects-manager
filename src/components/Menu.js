@@ -3,6 +3,7 @@ import { NavLink, useOutletContext, useRevalidator } from "react-router-dom";
 
 // Icons
 import { HiOutlineUserCircle } from "react-icons/hi";
+import { TiSocialGithub } from "react-icons/ti";
 
 // API
 import { users } from "../api";
@@ -11,11 +12,12 @@ import { users } from "../api";
 import Avatar from "./Avatar";
 import DropdownButton from "./DropdownButton";
 import Button from "./Button";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 
 const Menu = () => {
-
-    const user = useOutletContext();
+    
+    const { session, theme, setTheme } = useOutletContext();
 
     const revalidator = useRevalidator();
 
@@ -26,12 +28,12 @@ const Menu = () => {
     };
 
     const buttonContent = () => {
-        if (user) {
-            if (user.avatarUrl) {
+        if (session) {
+            if (session.avatarUrl) {
                 return <Avatar 
                     className="menu__img"
                     size={30}
-                    src={user.avatarUrl}
+                    src={session.avatarUrl}
                     defaultElement={<DefaultIcon />}
                 />;
             }
@@ -41,9 +43,10 @@ const Menu = () => {
     };
 
     const username = () => {
-        if (user) {
+        if (session) {
             return <div className="menu__username">
-                { user.githubLogin }
+                { session.githubLogin }
+                <TiSocialGithub size={24}/>
             </div>;
         }
     };
@@ -51,14 +54,14 @@ const Menu = () => {
     const dropdownContent = () => {
         return <>
             { username() }
-            <Button type="dropdown-item">
+            <Button type="dropdown-item" theme={theme}>
                 <NavLink to="settings">Settings</NavLink>
             </Button>
-            <Button type="dropdown-item" onClick={() => logout()}>
+            <Button type="dropdown-item" theme={theme} onClick={() => logout()}>
                 { "Logout" }
             </Button>
         </>;
-    }
+    };
 
     const logout = () => {
         users.logout().then(() => revalidator.revalidate());
@@ -73,6 +76,18 @@ const Menu = () => {
 
     return <div className="menu-wrapper">
         <div className="menu">
+
+            <Button 
+                onClick={() => setTheme(theme==="light"?"dark":"light")} 
+                theme={theme}
+                >
+                {
+                    theme === "light"?
+                    <MdDarkMode size={20} />:
+                    <MdLightMode size={20} />
+                }
+            </Button>
+            
             <NavButtons />
             <DropdownButton 
                 buttonContent={buttonContent}

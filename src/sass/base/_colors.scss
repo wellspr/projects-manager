@@ -3,7 +3,7 @@ $color-primary-2-dark: #04293A;
 $color-primary-3-dark: #064663;
 $color-primary-4-dark: #548CA8;
 
-$color-primary-1-light: #eeeeee;
+$color-primary-1-light: rgb(238, 238, 238);
 
 $color-secondary-1-light: #ECB365;
 $color-secondary-2-light: #C69B7B;
@@ -12,6 +12,9 @@ $color-secondary-3-light: #F7CCAC;
 
 $body-background-color: $color-primary-1-dark;
 $body-font-color: $color-primary-1-light;
+
+$body-background-color-light: $color-primary-1-light;
+$body-font-color-light: $color-primary-1-dark;
 
 // Background color for tags
 $tag-background-color: $color-secondary-1-light;
@@ -24,10 +27,3 @@ $button-font-color-dark: $color-primary-1-dark;
 
 $danger-button-background-color: crimson;
 $danger-color: crimson;
-
-body {
-    background-color: $body-background-color;
-    color: rgba($body-font-color, 0.85);
-}
-
-$component-width: 1024px;

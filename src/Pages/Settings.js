@@ -1,11 +1,15 @@
+import { useOutletContext } from "react-router-dom";
+import { Component, Header } from "../components/Component";
+
 const Settings = () => {
 
-	return <div className="component-wrapper">
-		<div className="component__header">
-			<h2 className="component__header__title">Settings</h2>
-		</div>
+	const { theme } = useOutletContext();
+
+	return <Component>
+		<Header title="Settings" theme={theme} />
+
 		
-	</div>;
+	</Component>;
 };
 
 export default Settings;

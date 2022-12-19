@@ -1,3 +1,5 @@
+import { useOutletContext } from "react-router-dom";
+
 const Input = ({ 
     id="", 
     label, 
@@ -6,6 +8,9 @@ const Input = ({
     value="", 
     setValue 
 }) => {
+
+    const { theme } = useOutletContext();
+
     if (type === "description") {
         return (
             <div className="input-group">
@@ -17,7 +22,7 @@ const Input = ({
                 </label>
                 <textarea 
                     id={id} 
-                    className="input" 
+                    className={`input input--theme__${theme}`}  
                     placeholder={placeholder} 
                     rows={5} 
                     value={value}
@@ -36,7 +41,7 @@ const Input = ({
             </label>
             <input 
                 id={id} 
-                className="input" 
+                className={`input input--theme__${theme}`} 
                 placeholder={placeholder} 
                 type={type} 
                 value={value}

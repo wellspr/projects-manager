@@ -1,5 +1,5 @@
 // React Router Dom
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 
 // React
 import { useEffect, useState } from "react";
@@ -13,16 +13,14 @@ import Form from "../components/Form";
 import { projects } from "../api";
 import Controls from "../components/Controls";
 import DangerZone from "../components/DangerZone";
+import { Component, Header } from "../components/Component";
 
 
 const EditProject = () => {
 
     const navigate = useNavigate();
     const project = useLoaderData();
-
-    if (!project) {
-        throw new Error("Project not found");
-    }
+    const { theme } = useOutletContext();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -34,6 +32,10 @@ const EditProject = () => {
     const [completed, setCompleted] = useState(false);
 
     const [showAlert, setShowAlert] = useState(false);
+
+    if (!project) {
+        throw new Error("Project not found...");
+    }
 
     useEffect(() => {
         setTitle(project.title || "");
@@ -60,12 +62,10 @@ const EditProject = () => {
         }, project.key)
             .then(() => navigate("/projects"))
             .catch(err => console.log(err));
-    }
+    };
 
-    return <div className="component-wrapper">
-        <div className="component__header">
-            <h2 className="component__header__title">Edit Project</h2>
-        </div>
+    return <Component>
+        <Header title="Edit Project" theme={theme}/>
 
         <Form 
             title={title} setTitle={setTitle}
@@ -83,6 +83,7 @@ const EditProject = () => {
             <Button 
                 type="action" 
                 size="large"
+                theme={theme}
                 onClick={onSaveChanges}
                 className="control__btn"
                 >
@@ -91,6 +92,7 @@ const EditProject = () => {
             <Button 
                 type="action"
                 size="large"
+                theme={theme}
                 className="control__btn"
                 onClick={() => navigate("/projects")}
                 >
@@ -102,6 +104,7 @@ const EditProject = () => {
             actionLabel="Delete Project"
             message="This will remove this project definitively."
             setShowAlert={setShowAlert}
+            theme={theme}
         />
 
         <AlertBox 
@@ -113,29 +116,33 @@ const EditProject = () => {
 
                 <h4 className="alert__message">This action will permanently remove project { project.title }. </h4>
 
-                <Button 
-                    type={"danger"}
-                    className="alert__btn"
-                    onClick={() => {
-                        projects.deleteProject(project.key)
-                        .then(r => navigate("/projects"))
-                        .catch(err => console.log(err));
-                    }}
-                    >
-                    { "Confirm" }
-                </Button>
+                <div className="alert__controls">
+                    <Button 
+                        type={"danger"}
+                        theme={theme}
+                        className="alert__btn"
+                        onClick={() => {
+                            projects.deleteProject(project.key)
+                            .then(r => navigate("/projects"))
+                            .catch(err => console.log(err));
+                        }}
+                        >
+                        { "Confirm" }
+                    </Button>
 
-                <Button
-                    type={"action"}
-                    className="alert__btn"
-                    onClick={() => setShowAlert(!showAlert)}
-                    >
-                    { "Cancel" }
-                </Button>
+                    <Button
+                        type={"action"}
+                        theme={theme}
+                        className="alert__btn"
+                        onClick={() => setShowAlert(!showAlert)}
+                        >
+                        { "Cancel" }
+                    </Button>
+                </div>
             </div>
 
         </AlertBox>
-    </div>;
+    </Component>;
 };
 
 export default EditProject;

@@ -12,6 +12,8 @@
     position: relative;
 
     &__username {
+        display: flex;
+        align-items: center;
         font-size: 1.2rem;
         margin: 1rem;
     }

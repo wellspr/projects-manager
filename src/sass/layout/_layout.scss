@@ -7,11 +7,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: linear-gradient(
-        to right bottom,
-        $color-primary-4-dark,
-        $color-primary-3-dark
-    );
 }
 
 .main {
@@ -63,8 +58,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        @include separator();
         padding: 10px 0 15px 0;
+        height: 60px;
         
         &__title {
             font-size: 2rem;

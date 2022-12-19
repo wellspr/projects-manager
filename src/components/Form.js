@@ -1,3 +1,4 @@
+import { useOutletContext } from "react-router-dom";
 import Input from "./Input";
 import TagsEditor from "./TagsEditor";
 import TechStackEditor from "./TechStackEditor";
@@ -12,6 +13,8 @@ const Form = ({
     thumbnails, setThumbnails,
     completed, setCompleted,
  }) => {
+
+    const { theme } = useOutletContext();
 
     return <form 
         className="form" 
@@ -38,7 +41,7 @@ const Form = ({
             techstack={techstack} setTechstack={setTechstack}
         />
         <TagsEditor
-            tags={tags} setTags={setTags}
+            tags={tags} setTags={setTags} theme={theme}
         />
         <Input 
             id="link-to-github"

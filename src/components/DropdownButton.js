@@ -2,13 +2,15 @@
 import React, { useRef, useState, useEffect, forwardRef } from "react";
 
 // React Router Dom
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 
 // Components
 import Button from "./Button";
 
 
 const DropdownButton = ({ buttonContent, dropdownContent }) => {
+
+    const { theme } = useOutletContext();
 
     const location = useLocation();
 
@@ -41,6 +43,7 @@ const DropdownButton = ({ buttonContent, dropdownContent }) => {
 		<div className="dropdown__button" ref={buttonRef}>
             <Button
                 type="dropdown" 
+                theme={theme}
                 onClick={() => setShow(!show)}
                 >
                 { buttonContent() }
@@ -58,10 +61,12 @@ const DropdownButton = ({ buttonContent, dropdownContent }) => {
 
 const Dropdown = forwardRef(({ show, children }, ref) => {
 
+    const { theme } = useOutletContext();
+
 	if (!show) return null;
 
 	return <div className="dropdown-wrapper">
-		<div className="dropdown" ref={ref}>
+		<div className={`dropdown dropdown--theme__${theme}`} ref={ref}>
 			{ children }
 		</div>
 	</div>;

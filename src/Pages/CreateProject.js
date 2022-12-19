@@ -11,12 +11,13 @@ import Form from "../components/Form";
 // API
 import { projects } from "../api";
 import Controls from "../components/Controls";
+import { Component, Header } from "../components/Component";
 
 
 const CreateProject = () => {
 
     const navigate = useNavigate();
-    const session = useOutletContext();
+    const { session, theme } = useOutletContext();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -45,10 +46,8 @@ const CreateProject = () => {
         .catch(err => console.log(err));
     };
 
-    return <div className="component-wrapper">
-        <div className="component__header">
-            <h2 className="component__header__title">Create a new Project</h2>
-        </div>
+    return <Component>
+        <Header title="Create a new Project" theme={theme}/>
         <Form 
             title={title} setTitle={setTitle}
             description={description} setDescription={setDescription}
@@ -64,6 +63,7 @@ const CreateProject = () => {
             <Button 
                 type="action" 
                 size="large"
+                theme={theme}
                 className="control__btn"
                 disabled={!title.length?true:false}
                 onClick={onAddProject}
@@ -73,13 +73,14 @@ const CreateProject = () => {
             <Button 
                 type="action"
                 size="large"
+                theme={theme}
                 className="control__btn"
                 onClick={() => navigate("/projects")}
                 >
                 { "Cancel" }
             </Button>
         </Controls>
-    </div>;
+    </Component>;
 };
 
 export default CreateProject;

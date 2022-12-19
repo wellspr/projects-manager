@@ -9,12 +9,12 @@ import Main from "./Main";
 
 const Page = () => {
 
-    const session = useOutletContext();
-    
-    return <div className="app">
+    const { theme } = useOutletContext();
+
+    return <div className={`app app--theme app--theme__${theme}`}>
         <Header />
         <Main>
-            <Outlet context={session} />
+            <Outlet context={ useOutletContext() }/>
         </Main>
         <Footer />
     </div>;

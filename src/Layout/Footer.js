@@ -1,10 +1,14 @@
 import { AiFillGithub } from "react-icons/ai";
+import { useOutletContext } from "react-router-dom";
 
 const creation = 2022;
 const currentYear = (new Date()).getFullYear();
 
 const Footer = () => {
-    return <footer className="footer">
+
+    const { theme } = useOutletContext() || {};
+    
+    return <footer className={`footer footer--theme footer--theme__${theme}`}>
         <div className="footer__copy">
             <span className="footer__item">&copy; {creation} { currentYear > creation && `- ${currentYear}` }</span>
             {"|"}

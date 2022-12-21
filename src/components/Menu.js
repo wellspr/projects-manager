@@ -1,9 +1,10 @@
 // React Router Dom
-import { NavLink, useOutletContext, useRevalidator } from "react-router-dom";
+import { NavLink, useNavigate, useOutletContext, useRevalidator } from "react-router-dom";
 
 // Icons
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { TiSocialGithub } from "react-icons/ti";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 // API
 import { users } from "../api";
@@ -12,7 +13,9 @@ import { users } from "../api";
 import Avatar from "./Avatar";
 import DropdownButton from "./DropdownButton";
 import Button from "./Button";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
+
+// Local Data Storage
+import { removeData } from "../local/sessionStorage";
 
 
 const Menu = () => {
@@ -20,6 +23,7 @@ const Menu = () => {
     const { session, theme, setTheme } = useOutletContext();
 
     const revalidator = useRevalidator();
+    const navigate = useNavigate();
 
     const DefaultIcon = () => {
         return <div className="menu__icon">
@@ -57,14 +61,21 @@ const Menu = () => {
             <Button type="dropdown-item" theme={theme}>
                 <NavLink to="settings">Settings</NavLink>
             </Button>
-            <Button type="dropdown-item" theme={theme} onClick={() => logout()}>
+            <Button type="dropdown-item" theme={theme} onClick={() => { logout() }}>
                 { "Logout" }
             </Button>
         </>;
     };
 
     const logout = () => {
-        users.logout().then(() => revalidator.revalidate());
+        users.logout().then(() => {
+            revalidator.revalidate()
+        }).catch(err => {
+            console.log(err);
+        }).finally(() => {
+            removeData("session");
+            navigate("/");
+        });
     };
 
     const NavButtons = () => {

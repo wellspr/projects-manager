@@ -8,6 +8,13 @@ const {
     deleteProject 
 } = require("../databases/projects");
 
+projectsRouter.use("/", async (req, res, next) => {
+    if (req.session) {
+        return next();
+    }
+    return res.status(401).send(null);
+});
+
 projectsRouter.get("/user/:userId", async (req, res) => {
     try {
         const response = await getProjects(req.params.userId);

@@ -4,7 +4,7 @@ const { checkSession, destroySession } = require("../databases/sessions");
 const usersRouter = express.Router();
 
 usersRouter.get("/check-session", async (req, res) => {
-    if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
+    if (req.session) {
         const response = await checkSession(req.cookies[process.env.COOKIE_NAME]);
         return res.json(response);
     }
@@ -12,7 +12,7 @@ usersRouter.get("/check-session", async (req, res) => {
 });
 
 usersRouter.get("/logout", async (req, res) => {
-    if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
+    if (req.session) {
         const response = await destroySession(req.cookies[process.env.COOKIE_NAME]);
         return res.json(response);
     }

@@ -7,6 +7,9 @@ import { Outlet, useLoaderData, useRevalidator } from "react-router-dom";
 // Pages
 import Auth from "../Pages/Auth";
 
+// Local Data Storage
+import { setData, getData } from "../local/sessionStorage";
+
 
 const RequireAuth = () => {
 
@@ -19,7 +22,12 @@ const RequireAuth = () => {
     useEffect(() => {
         const onFocus = () => {
             console.log("FOCUS");
-            revalidator.revalidate();
+
+            const session = getData("session");
+
+            if (!session) {
+                revalidator.revalidate();
+            }
         };
 
         window.addEventListener("focus", onFocus);
@@ -27,6 +35,15 @@ const RequireAuth = () => {
         return () => window.removeEventListener("focus", onFocus);
 
     }, [revalidator]);
+
+    useEffect(() => {
+        if (session) {
+            setData({
+                key: "session",
+                value: session,
+            });
+        }
+    }, [session]);
 
     const renderApp = () => {
 

@@ -1,5 +1,5 @@
 // React Router Dom
-import { useNavigate, useRouteError } from "react-router-dom";
+import { Link, useNavigate, useRouteError } from "react-router-dom";
 
 // Components
 import Button from "../components/Button";
@@ -11,13 +11,14 @@ import {
     stars as errorDefault
 } from "../images";
 
+
 const errorMessages = {
     error_404: { 
         default: "The page could not be found",
         project: "Project not found"
     },
     error_500: {
-        default: "Something's temporarily out of place around here!",
+        default: "Something's out of place around here!",
     },
     error_generic: {
         default: "Oh, boy!"
@@ -28,8 +29,6 @@ const Error = () => {
 
     const error = useRouteError();
     const navigate = useNavigate();
-
-    console.log(error);
 
     const renderErrorMesage = () => {
 
@@ -72,13 +71,17 @@ const Error = () => {
         if (error.response) {
             return messageByStatus(error.response);
         }
-    }
+    };
 
     const renderButton = () => {
 
         if (error.status === 500 || (error.response && error.response.status === 500)) {
-            return <div className="error__message">
-                We are working on this issue, please return a bit later.
+            return <div className="error__message--action">
+                We are working on this issue, please
+                {" "}
+                <Link to={"/"} style={{ textDecoration: "underline" }} >try again</Link>
+                {" "}
+                a bit later.
             </div>;
         }
 

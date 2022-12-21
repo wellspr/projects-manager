@@ -37,6 +37,9 @@ import Page from "./Layout/Page";
 import Settings from "./Pages/Settings";
 import Themes from "./hocs/Themes";
 
+// Local Data Storage
+import { getData, removeData } from "./local/sessionStorage";
+
 
 const errorBoundary = (error) => {
     if (error.response.status === 500) {
@@ -45,19 +48,65 @@ const errorBoundary = (error) => {
     throw new Response("", { status: error.response.status, statusText: error.response.statusText });
 };
 
+const requireAuthLoader = async () => {
+    try {
+        const session = getData("session");
+        if (session) {
+            return session; 
+        } 
+        const usersResponse = await users.checkSession();
+        return usersResponse.data;
+    } catch (err) {
+        errorBoundary(err);
+    }
+};
+
+const projectsLoader = async () => {
+    try {
+        const response = await projects.getProjects();
+        return response.data;
+    } catch (err) {
+        if (err.response.status === 401) {
+            removeData("session");
+            return redirect("/");
+        }
+        errorBoundary(err);
+    }
+};
+
+const editProjectLoader = async ({ params }) => {
+    try {
+        const response = await projects.getProject(params.id);
+        if (!response.data) {
+            throw new Response("project", { status: 404, statusText: "Not Found" });
+        }
+        return response.data;
+    } catch (err) {
+        if (err.response.status === 401) {
+            console.log(err);
+            removeData("session");
+            return redirect("/");
+        }
+        errorBoundary(err);
+    }
+};
+
+const loginResponseLoader = async ({ request }) => {
+    const url = new URL(request.url);
+    const code = url.searchParams.get("code");
+    const response = await githubAuth.githubCallback(code);
+    if (!response.data.error) {
+        return redirect("/");
+    }
+    return response.data;
+};
+
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route
             element={<RequireAuth />}
             errorElement={<Error />}
-            loader={async () => {
-                try {
-                    const usersResponse = await users.checkSession();
-                    return usersResponse.data;
-                } catch (err) {
-                    errorBoundary(err);
-                }
-            }}
+            loader={requireAuthLoader}
             >
 
             {/* Themes */}
@@ -79,23 +128,12 @@ const router = createBrowserRouter(
                     />
 
                     {/* Projects Route */}
-                    <Route
-                        path="projects"
-                        errorElement={<Error />}
-                        >
-
+                    <Route path="projects">
                         <Route
                             path=""
                             element={<Projects />}
                             errorElement={<Error />}
-                            loader={async () => {
-                                try {
-                                    const response = await projects.getProjects();
-                                    return response.data;
-                                } catch (err) {
-                                    errorBoundary(err);
-                                }
-                            }}
+                            loader={projectsLoader}
                         />
                     
                         <Route
@@ -108,13 +146,7 @@ const router = createBrowserRouter(
                             path="edit/:id"
                             element={<EditProject />}
                             errorElement={<Error />}
-                            loader={async ({ params }) => {
-                                const response = await projects.getProject(params.id);
-                                if (!response.data) {
-                                    throw new Response("project", { status: 404, statusText: "Not Found" });
-                                }
-                                return response.data;
-                            }}
+                            loader={editProjectLoader}
                         />
                     </Route>
                     
@@ -128,16 +160,8 @@ const router = createBrowserRouter(
                     <Route
                         path="callback"
                         element={<LoginResponse />}
-                        loader={async ({ request }) => {
-                            const url = new URL(request.url);
-                            const code = url.searchParams.get("code");
-                            const response = await githubAuth.githubCallback(code);
-                            if (!response.data.error) {
-                                return redirect("/");
-                            }
-                            return response.data;
-                        }}
                         errorElement={<Error />}
+                        loader={loginResponseLoader}
                     />
 
                 </Route>

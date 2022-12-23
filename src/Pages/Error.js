@@ -6,7 +6,7 @@ import Button from "../components/Button";
 
 import { 
     lost as error404_default,
-    spaceVoid as error404_project,
+    spaceVoid as error404_project_not_found,
     abduction as error500,
     stars as errorDefault
 } from "../images";
@@ -15,8 +15,8 @@ import {
 const errorMessages = {
     error_404: { 
         headline: "Uh-oh... Not that route...",
-        default: "The page could not be found",
-        project: "Project not found"
+        default: "Please double check the url",
+        project_not_found: "Please double check the project id"
     },
     error_500: {
         headline: "Oops... Something's not quite right...",
@@ -47,20 +47,37 @@ const Error = () => {
                 <div className="error__message">
                     <Image svg={image}/>
                     <div>
-                        <div className="error__message error__message--primary">{ error.status } - { error.statusText }</div>
-                        <p className="error__message error__message--secondary">{ message }</p>
+                        <div className="error__message error__message--primary">
+                            { error.status } - { error.statusText }
+                        </div>
+                        <p className="error__message error__message--secondary">
+                            { message }
+                        </p>
                     </div>
                 </div>
             </>;
         };
 
         const messageByStatus = (error) => {
+
+            if (!error.data) {
+                error.data = "default";
+            }
+            
+            if (error.status === 404 && error.data === "default") {
+                error.statusText = "Page Not Found";
+            }
+
+            console.log("ERROR: ", error);
+            
             if (error.status === 404) {
                 /** 
                  * error.data specifies where the error comes from
                 */
-                const image = error.data ? error404_project : error404_default;
-                const message = errorMessages.error_404[error.data] || errorMessages.error_404.default;
+                const image = error.data === "project_not_found" 
+                ? error404_project_not_found
+                : error404_default;
+                const message = errorMessages.error_404[error.data];
                 const headline = errorMessages.error_404.headline;
                 return <ErrorInstance  error={error} image={image} message={message} headline={headline} />
             }

@@ -46,7 +46,11 @@ const errorBoundary = (error) => {
     if (error.response.status === 500) {
         throw new Response("api_is_down", { status: 500, statusText: "API Unavailable" });
     }
-    throw new Response("", { status: error.response.status, statusText: error.response.statusText });
+
+    throw new Response(error.response.data || "default", { 
+        status: error.response.status, 
+        statusText: error.response.statusText 
+    });
 };
 
 const requireAuthLoader = async ({ params, request }) => {
@@ -78,14 +82,22 @@ const editProjectLoader = async ({ params }) => {
     try {
         const response = await projects.getProject(params.id);
         if (!response.data) {
-            throw new Response("project", { status: 404, statusText: "Not Found" });
+            throw new Response("", { 
+                status: 404, 
+                statusText: "Project Not Found",
+            });
         }
         return response.data;
     } catch (err) {
+        if (err.status === 404) {
+            err.response = err;
+            err.response.data = "project_not_found";
+        }
         if (err.response.status === 401) {
             removeData("session");
             return redirect("/login");
         }
+
         errorBoundary(err);
     }
 };

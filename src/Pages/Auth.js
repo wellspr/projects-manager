@@ -1,3 +1,6 @@
+// React Router Dom
+import { useOutletContext } from "react-router-dom";
+
 // Icons
 import { ImGithub } from "react-icons/im";
 
@@ -12,12 +15,15 @@ import { githubAuth } from "../api";
 import svgImage from "../images/programmer.svg";
 
 
-const Auth = ({ theme }) => {
+const Auth = () => {
+
+	const { theme } = useOutletContext();
 
 	const githubLogin = (window) => {
         githubAuth.githubLogin()
         .then(r => {
-			window.location.assign(r.data)
+			console.log("Redirect: ", r.data);
+			window.location.assign(r.data);
 		})
         .catch(err => console.log(err));
     };

@@ -38,7 +38,8 @@ import Settings from "./Pages/Settings";
 import Themes from "./hocs/Themes";
 
 // Local Data Storage
-import { getData, removeData } from "./local/sessionStorage";
+import { removeData } from "./local/sessionStorage";
+import Auth from "./Pages/Auth";
 
 
 const errorBoundary = (error) => {
@@ -48,12 +49,11 @@ const errorBoundary = (error) => {
     throw new Response("", { status: error.response.status, statusText: error.response.statusText });
 };
 
-const requireAuthLoader = async () => {
-    try {
-        const session = getData("session");
-        if (session) {
-            return session; 
-        } 
+const requireAuthLoader = async ({ params, request }) => {
+
+    console.log(params, request);
+
+    try { 
         const usersResponse = await users.checkSession();
         return usersResponse.data;
     } catch (err) {
@@ -68,7 +68,7 @@ const projectsLoader = async () => {
     } catch (err) {
         if (err.response.status === 401) {
             removeData("session");
-            return redirect("/");
+            return redirect("/login");
         }
         errorBoundary(err);
     }
@@ -83,9 +83,8 @@ const editProjectLoader = async ({ params }) => {
         return response.data;
     } catch (err) {
         if (err.response.status === 401) {
-            console.log(err);
             removeData("session");
-            return redirect("/");
+            return redirect("/login");
         }
         errorBoundary(err);
     }
@@ -114,6 +113,13 @@ const router = createBrowserRouter(
                 element={<Themes />}
                 errorElement={<Error />}
                 >
+
+                {/* Login route */}
+                <Route 
+                    path="/login"
+                    element={<Auth />}
+                    errorElement={<Error />}
+                />
             
                 {/* Root Route */}
                 <Route
@@ -156,15 +162,16 @@ const router = createBrowserRouter(
                         element={<Settings />}
                     />
 
-                    {/* Callback Route */}
-                    <Route
-                        path="callback"
-                        element={<LoginResponse />}
-                        errorElement={<Error />}
-                        loader={loginResponseLoader}
-                    />
 
                 </Route>
+                    
+                {/* Callback Route */}
+                <Route
+                    path="/callback"
+                    element={<LoginResponse />}
+                    errorElement={<Error />}
+                    loader={loginResponseLoader}
+                />
             </Route>
         </Route>
     )

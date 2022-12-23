@@ -2,39 +2,27 @@
 import { useEffect } from "react";
 
 // React Router Dom
-import { Outlet, useLoaderData, useRevalidator } from "react-router-dom";
-
-// Pages
-import Auth from "../Pages/Auth";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 
 // Local Data Storage
-import { setData, getData } from "../local/sessionStorage";
+import { setData } from "../local/sessionStorage";
 
 
 const RequireAuth = () => {
 
     const session = useLoaderData();
-
-    const theme = (session && session.theme) || "dark";
-
-    const revalidator = useRevalidator();
+    const navigate = useNavigate();
 
     useEffect(() => {
+
         const onFocus = () => {
             console.log("FOCUS");
-
-            const session = getData("session");
-
-            if (!session) {
-                revalidator.revalidate();
-            }
         };
 
         window.addEventListener("focus", onFocus);
 
         return () => window.removeEventListener("focus", onFocus);
-
-    }, [revalidator]);
+    }, []);
 
     useEffect(() => {
         if (session) {
@@ -42,17 +30,12 @@ const RequireAuth = () => {
                 key: "session",
                 value: session,
             });
+        } else {
+            navigate("/login");
         }
-    }, [session]);
+    }, [session, navigate]);
 
     const renderApp = () => {
-
-        if (!session) {
-            return (
-                <Auth theme={theme} />
-            );
-        }
-
         return <Outlet context={ session } />;
     }
 

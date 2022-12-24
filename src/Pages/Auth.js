@@ -28,12 +28,6 @@ const Auth = () => {
         .catch(err => console.log(err));
     };
 
-	const Image = ({ svg }) => {
-		return <div style={{ marginBottom: "3rem" }}>
-			<img src={svg} alt={"svg"} height={200} />
-		</div>
-	};
-
 	return <div className={`auth auth--theme__${theme}`}>
 		<Image svg={svgImage} />
 		<Brand size="large" />
@@ -47,6 +41,12 @@ const Auth = () => {
 			<Content />
 		</Button>
 	</div>;
+};
+
+const Image = ({ svg }) => {
+	return <div style={{ marginBottom: "3rem" }}>
+		<img src={svg} alt={"svg"} height={200} />
+	</div>
 };
 
 const Content = () => {

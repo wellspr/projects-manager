@@ -4,9 +4,6 @@ import { useEffect } from "react";
 // React Router Dom
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 
-// Local Data Storage
-import { setData } from "../local/sessionStorage";
-
 
 const RequireAuth = () => {
 
@@ -25,19 +22,12 @@ const RequireAuth = () => {
     }, []);
 
     useEffect(() => {
-        if (session) {
-            setData({
-                key: "session",
-                value: session,
-            });
-        } else {
-            navigate("/login");
-        }
+        if (!session) navigate("/login");
     }, [session, navigate]);
 
     const renderApp = () => {
         return <Outlet context={ session } />;
-    }
+    };
 
     return renderApp();
 };

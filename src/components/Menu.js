@@ -15,8 +15,21 @@ import DropdownButton from "./DropdownButton";
 import Button from "./Button";
 
 // Local Data Storage
-import { removeData } from "../local/sessionStorage";
+import { clearData } from "../local/sessionStorage";
 
+
+const DefaultIcon = () => {
+    return <div className="menu__icon">
+        <HiOutlineUserCircle size={30} />
+    </div>
+};
+
+const NavButtons = () => {
+    return <div className="menu__nav">
+        <NavLink to={"/"} className="menu__nav__navlink">Home</NavLink>
+        <NavLink to={"/projects"} className="menu__nav__navlink">Projects</NavLink>
+    </div>;
+};
 
 const Menu = () => {
     
@@ -24,12 +37,6 @@ const Menu = () => {
 
     const revalidator = useRevalidator();
     const navigate = useNavigate();
-
-    const DefaultIcon = () => {
-        return <div className="menu__icon">
-            <HiOutlineUserCircle size={30} />
-        </div>
-    };
 
     const buttonContent = () => {
         if (session) {
@@ -68,21 +75,13 @@ const Menu = () => {
     };
 
     const logout = () => {
-        users.logout().then(() => {
-            revalidator.revalidate()
-        }).catch(err => {
-            console.log(err);
-        }).finally(() => {
-            removeData("session");
-            navigate("/");
-        });
-    };
-
-    const NavButtons = () => {
-        return <div className="menu__nav">
-            <NavLink to={"/"} className="menu__nav__navlink">Home</NavLink>
-            <NavLink to={"/projects"} className="menu__nav__navlink">Projects</NavLink>
-        </div>;
+        users.logout()
+            .then(() => revalidator.revalidate())
+            .catch(err => console.log(err))
+            .finally(() => {
+                clearData();
+                navigate("/");
+            });
     };
 
     return <div className="menu-wrapper">

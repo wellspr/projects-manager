@@ -28,75 +28,73 @@ const errorMessages = {
     },
 }
 
+const Image = ({ svg }) => {
+    return <div className="error__image">
+        <img src={svg} alt="404 error" height={220} />
+    </div>;
+}
+
+const ErrorInstance = ({ error, image, message, headline }) => {
+    return <>
+        <h2 className="error__header">{ headline }</h2>
+        <div className="error__message">
+            <Image svg={image}/>
+            <div>
+                <div className="error__message error__message--primary">
+                    { error.status } - { error.statusText }
+                </div>
+                <p className="error__message error__message--secondary">
+                    { message }
+                </p>
+            </div>
+        </div>
+    </>;
+};
+
+const messageByStatus = (error) => {
+    if (!error.data) {
+        error.data = "default";
+    }
+    
+    if (error.status === 404 && error.data === "default") {
+        error.statusText = "Page Not Found";
+    }
+
+    console.log("ERROR: ", error);
+    
+    if (error.status === 404) {
+        /** 
+         * error.data specifies where the error comes from
+        */
+        const image = error.data === "project_not_found" 
+        ? error404_project_not_found
+        : error404_default;
+        const message = errorMessages.error_404[error.data];
+        const headline = errorMessages.error_404.headline;
+        return <ErrorInstance  error={error} image={image} message={message} headline={headline} />
+    }
+
+    if (error.status === 500) {
+        const image = error500;
+        const message = errorMessages.error_500.default
+        const headline = errorMessages.error_500.headline;
+        return <ErrorInstance  error={error} image={image} message={message} headline={headline} />
+    }
+    
+    return <ErrorInstance  
+        error={error} 
+        image={errorDefault} 
+        message={errorMessages.error_generic.default} 
+        headline={errorMessages.error_generic.headline}    
+    />
+};
+
 const Error = () => {
 
     const error = useRouteError();
     const navigate = useNavigate();
 
     const renderErrorMesage = () => {
-
-        const Image = ({ svg }) => {
-            return <div className="error__image">
-                <img src={svg} alt="404 error" height={220} />
-            </div>;
-        }
-
-        const ErrorInstance = ({ error, image, message, headline }) => {
-            return <>
-                <h2 className="error__header">{ headline }</h2>
-                <div className="error__message">
-                    <Image svg={image}/>
-                    <div>
-                        <div className="error__message error__message--primary">
-                            { error.status } - { error.statusText }
-                        </div>
-                        <p className="error__message error__message--secondary">
-                            { message }
-                        </p>
-                    </div>
-                </div>
-            </>;
-        };
-
-        const messageByStatus = (error) => {
-
-            if (!error.data) {
-                error.data = "default";
-            }
-            
-            if (error.status === 404 && error.data === "default") {
-                error.statusText = "Page Not Found";
-            }
-
-            console.log("ERROR: ", error);
-            
-            if (error.status === 404) {
-                /** 
-                 * error.data specifies where the error comes from
-                */
-                const image = error.data === "project_not_found" 
-                ? error404_project_not_found
-                : error404_default;
-                const message = errorMessages.error_404[error.data];
-                const headline = errorMessages.error_404.headline;
-                return <ErrorInstance  error={error} image={image} message={message} headline={headline} />
-            }
-
-            if (error.status === 500) {
-                const image = error500;
-                const message = errorMessages.error_500.default
-                const headline = errorMessages.error_500.headline;
-                return <ErrorInstance  error={error} image={image} message={message} headline={headline} />
-            }
-            
-            return <ErrorInstance  
-                error={error} 
-                image={errorDefault} 
-                message={errorMessages.error_generic.default} 
-                headline={errorMessages.error_generic.headline}    
-            />
-        };
-
         if (error.status) {
             return messageByStatus(error);            
         }

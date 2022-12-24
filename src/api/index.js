@@ -1,41 +1,60 @@
+// Import axios
 import axios from "axios";
 
+
+/**
+ * Projects API
+ */
 const api = axios.create({
     baseURL: "/projects"
 });
 
-const getProjectsByUserId = async (userId) => await api.get(`/user/${userId}`);
-const getProjects = async () => await api.get(`/`);
-const getProject = async (id) => await api.get(`/${id}`);
-const addProject = async (project) => await api.post("/", {project});
-const updateProject = async (updates, id) => await api.put(`/${id}`, {updates});
-const deleteProject = async (id) => await api.delete(`/${id}`);
-
 export const projects = { 
-    getProjectsByUserId,
-    getProjects,
-    getProject, 
-    addProject, 
-    updateProject, 
-    deleteProject 
+    getProjectsByUserId: async (userId) => await api.get(`/user/${userId}`),
+    getProjects: async () => await api.get(`/`),
+    getProject: async (id) => await api.get(`/${id}`), 
+    addProject: async (project) => await api.post("/", {project}), 
+    updateProject: async (updates, id) => await api.put(`/${id}`, {updates}), 
+    deleteProject: async (id) => await api.delete(`/${id}`),
 };
 
 
+/**
+ * Auth API
+ */
 const authApi = axios.create({
     baseURL: "/auth/github"
 });
 
-const githubLogin = async () => authApi.get("/login");
-const githubCallback = async (code) => authApi.get(`/callback?code=${code}`);
+export const githubAuth = { 
+    githubLogin: async () => authApi.get("/login"), 
+    githubCallback: async (code) => authApi.get(`/callback?code=${code}`),
+};
 
-export const githubAuth = { githubLogin, githubCallback };
 
-
+/**
+ * Users API
+ */
 const usersApi = axios.create({
     baseURL: "/users"
 });
 
-const checkSession = async () => usersApi.get("/check-session");
-const logout = async () => usersApi.get("/logout");
+export const users = {
+    checkSession: async () => usersApi.get("/check-session"),
+    logout: async () => usersApi.get("/logout"),
+};
 
-export const users = { checkSession, logout };
+
+/**
+ * Settings API
+ */
+const settingsApi = axios.create({
+    baseURL: "/settings"
+});
+
+export const settings = {
+    get: async () => settingsApi.get("/"),
+    set: async (settings) => settingsApi.post("/", { settings }),
+    update: async (updates, id) => settingsApi.put(`/${id}`, { updates }),
+    remove: async (id) => settingsApi.delete(`/${id}`),
+};

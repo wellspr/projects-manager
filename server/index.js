@@ -27,6 +27,7 @@ const routes = require("./routes");
 app.use("/projects", routes.projectsRouter);
 app.use("/auth/github", routes.githubAuthRouter);
 app.use("/users", routes.usersRouter);
+app.use("/settings", routes.settingsRouter);
 
 app.listen(port, starter());
 

@@ -24,9 +24,11 @@ import CreateProject from "./Pages/CreateProject";
 import EditProject from "./Pages/EditProject";
 import LoginResponse from "./Pages/Response"
 import Error from "./Pages/Error"
+import Auth from "./Pages/Auth";
+import Settings from "./Pages/Settings";
 
 // API
-import { githubAuth, projects, users } from "./api";
+import { githubAuth, projects, settings, users } from "./api";
 import RequireAuth from "./hocs/RequireAuth";
 
 // Component
@@ -34,12 +36,10 @@ import Loading from "./components/Loading";
 
 // Layout
 import Page from "./Layout/Page";
-import Settings from "./Pages/Settings";
 import Themes from "./hocs/Themes";
 
 // Local Data Storage
-import { removeData } from "./local/sessionStorage";
-import Auth from "./Pages/Auth";
+import { clearData, getData, setData } from "./local/sessionStorage";
 
 
 const errorBoundary = (error) => {
@@ -53,15 +53,42 @@ const errorBoundary = (error) => {
     });
 };
 
-const requireAuthLoader = async ({ params, request }) => {
+const requireAuthLoader = async () => {
+    const storedSession = getData("session");
+    if (!storedSession) {
+        try { 
+            const response = await users.checkSession();
+            const usersResponse = response.data;
 
-    console.log(params, request);
+            if (usersResponse) {
+                setData({ key: "session", value: usersResponse });
+            }
+            return usersResponse;
+        } catch (err) {
+            errorBoundary(err);
+        }
+    } else {
+        return storedSession;
+    }
+};
 
-    try { 
-        const usersResponse = await users.checkSession();
-        return usersResponse.data;
-    } catch (err) {
-        errorBoundary(err);
+const settingsLoader = async () => {
+    const storedSettings = getData("settings");
+    if (!storedSettings) {
+        try {
+            const response = await settings.get();
+            const serverSettings = response.data;
+
+            if (!serverSettings.unauthorized) {
+                setData({ key: "settings", value: serverSettings });
+            }
+
+            return serverSettings;
+        } catch (err) {
+            errorBoundary(err);
+        }
+    } else {
+        return storedSettings;
     }
 };
 
@@ -71,7 +98,7 @@ const projectsLoader = async () => {
         return response.data;
     } catch (err) {
         if (err.response.status === 401) {
-            removeData("session");
+            clearData();
             return redirect("/login");
         }
         errorBoundary(err);
@@ -94,7 +121,7 @@ const editProjectLoader = async ({ params }) => {
             err.response.data = "project_not_found";
         }
         if (err.response.status === 401) {
-            removeData("session");
+            clearData();
             return redirect("/login");
         }
 
@@ -124,6 +151,7 @@ const router = createBrowserRouter(
             <Route
                 element={<Themes />}
                 errorElement={<Error />}
+                loader={settingsLoader}
                 >
 
                 {/* Login route */}

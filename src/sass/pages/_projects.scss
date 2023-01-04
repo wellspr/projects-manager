@@ -1,0 +1,28 @@
+.projects {
+
+	&__header {
+
+		&__search-config-area {
+
+			width: 100%;
+			display: flex;
+			align-items: center;
+
+			&__button {
+
+				
+				&:hover {
+					text-decoration: underline;
+				}
+
+				&:active {
+					text-decoration: none;
+				}
+			}
+
+			&__results {
+				margin-left: 2rem;
+			}
+		}
+	}
+}

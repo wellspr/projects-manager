@@ -1,13 +1,8 @@
 // Import axios
 import axios from "axios";
 
-
-/**
- * Projects API
- */
-const api = axios.create({
-    baseURL: "/projects"
-});
+/** Projects API */
+const api = axios.create({ baseURL: "/projects" });
 
 export const projects = { 
     getProjectsByUserId: async (userId) => await api.get(`/user/${userId}`),
@@ -19,12 +14,8 @@ export const projects = {
 };
 
 
-/**
- * Auth API
- */
-const authApi = axios.create({
-    baseURL: "/auth/github"
-});
+/** Auth API */
+const authApi = axios.create({ baseURL: "/auth/github" });
 
 export const githubAuth = { 
     githubLogin: async () => authApi.get("/login"), 
@@ -32,12 +23,8 @@ export const githubAuth = {
 };
 
 
-/**
- * Users API
- */
-const usersApi = axios.create({
-    baseURL: "/users"
-});
+/** Users API */
+const usersApi = axios.create({ baseURL: "/users" });
 
 export const users = {
     checkSession: async () => usersApi.get("/check-session"),
@@ -45,12 +32,8 @@ export const users = {
 };
 
 
-/**
- * Settings API
- */
-const settingsApi = axios.create({
-    baseURL: "/settings"
-});
+/** Settings API */
+const settingsApi = axios.create({ baseURL: "/settings" });
 
 export const settings = {
     get: async () => settingsApi.get("/"),

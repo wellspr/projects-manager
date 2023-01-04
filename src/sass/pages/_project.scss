@@ -1,0 +1,70 @@
+.project-view {
+
+	font-size: 1.5rem;
+
+	&__header {
+
+		&__link {
+			font-size: 1.6rem;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	
+	&__label {
+		font-size: 1.4rem;
+		margin-top: 2rem;
+		margin-bottom: 5px;
+	}
+
+	&__title {
+		font-size: 3rem;
+		margin-left: 2rem;
+	}
+
+	&__description {
+		font-size: 1.8rem;
+		margin-left: 2rem;
+	}
+
+	&__techstack {
+		list-style: none;
+		margin-left: 2rem;
+	}
+
+	&__linkList {
+		display: flex;
+		margin-left: 2rem;
+	}
+
+	&__link {
+		margin-right: 2rem;
+		display: flex;
+		align-items: center;
+
+		&__label {
+			margin-right: 3px;
+		}
+	}	
+
+	&__info {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		margin-left: 2rem;
+
+		&__date,
+		&__work-in-progress,
+		&__published {
+			display: flex;
+			margin-right: 2rem;
+
+			p { 
+				margin-right: 2px; 
+				font-weight: bold;
+			}
+		}
+	}
+}

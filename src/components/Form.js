@@ -11,7 +11,8 @@ const Form = ({
     githubLink, setGithubLink,
     liveSite, setLiveSite,
     thumbnails, setThumbnails,
-    completed, setCompleted,
+    workInProgress, setWorkInProgress,
+    published, setPublished
  }) => {
 
     const { theme } = useOutletContext();
@@ -66,6 +67,20 @@ const Form = ({
             type="url"
             value={thumbnails}
             setValue={setThumbnails}
+        />
+        <Input 
+            id="workInProgress"
+            label="Work in Progress"
+            type="checkbox"
+            checked={workInProgress} // 'work in progress' === !workInProgress
+            setChecked={setWorkInProgress}
+        />
+        <Input 
+            id="published"
+            label="Published To API"
+            type="checkbox"
+            checked={published}
+            setChecked={setPublished}
         />
     </form>
 };

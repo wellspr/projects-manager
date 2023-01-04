@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createUser, checkGithubId } = require("../databases/users");
+const { createUser, checkGithubId, updateUser } = require("../databases/users");
 const { createUserObject } = require("../users");
 const { createSession } = require("../databases/sessions");
  
@@ -38,7 +38,7 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
         // Create a new session in the database
         response["userId"] = response.key
         delete response["key"];
-        const session = await createSession(response);
+        const session = await createSession({ user: response, remember: true});
 
         // Send a cookie to the user's browser, along with the response.
         res.cookie(process.env.COOKIE_NAME, session.key);
@@ -48,11 +48,25 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
      * if YES, create a new session for this user;
      */
     if (count === 1) {
+        // Update Saved User Data
+        const userId = items[0].key;
+        const updatedUser = createUserObject(req.user);
+        const response = await updateUser(userId, updatedUser); /** If success returns null, else throws error */
+        
+        let data;
+
+        if (!response) { /** If success... */
+            // Recover data
+            const user = await checkGithubId(req.user.id);
+            data = user.items[0];
+        } else { /** If not updated, use previous/outdated result */
+            data = items[0];
+        }
+        
         // Create Session
-        const data = items[0];
         data["userId"] = data.key;
         delete data["key"];
-        const session = await createSession(data);
+        const session = await createSession({user: data, remember: true});
 
         // Send a cookie to the user's browser, along with the response.
         res.cookie(process.env.COOKIE_NAME, session.key);

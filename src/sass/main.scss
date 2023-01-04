@@ -10,7 +10,10 @@
 
 // Pages
 @import "pages/auth";
+@import "pages/projects";
+@import "pages/project";
 @import "pages/error";
+@import "pages/settings";
 
 // Components
 @import "components/brand";
@@ -21,12 +24,14 @@
 @import "components/tags";
 @import "components/form";
 @import "components/list";
+@import "components/project";
 @import "components/controls";
 @import "components/alert-box";
 @import "components/danger-zone";
 @import "components/search";
 @import "components/loading";
 @import "components/dropdown";
+@import "components/component";
 
 // Layout
 @import "layout/layout";

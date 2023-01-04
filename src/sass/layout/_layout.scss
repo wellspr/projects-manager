@@ -42,27 +42,3 @@
     }
 }
 
-.component-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 1rem;
-    width: 95%;
-    max-width: $component-width;
-    align-self: center;
-}
-
-.component {
-
-    &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 0 15px 0;
-        height: 60px;
-        
-        &__title {
-            font-size: 2rem;
-        }
-    }
-}

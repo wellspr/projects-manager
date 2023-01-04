@@ -17,30 +17,6 @@
         justify-content: space-between;
         padding: 1.2rem 0;
         line-height: 1.5;
-
-        
-
-        &__title {
-            font-size: 2.1rem;
-        }
-
-        &__desc {
-            font-size: 1.6rem;
-        }
-
-        &__linkList {
-            display: flex;
-        }
-
-        &__link {
-            margin-right: 10px;
-            display: flex;
-            align-items: center;
-
-            &__label {
-                margin-right: 3px;
-            }
-        }
     }
 
     &__empty {

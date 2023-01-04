@@ -242,6 +242,26 @@ $outline-dark: 4px solid rgba($color-primary-4-dark, 0.95);
     }
 }
 
+.project {
+
+    &__title {
+
+        &__button, &__link {
+            
+            &--theme {
+                &__light {
+                
+                }
+                
+                &__dark {
+                    //color: rgba($button-font-color, 0.85)
+                    
+                }
+            }
+        }
+    }
+}
+
 .component {
 
     &__header {

@@ -5,6 +5,13 @@
     margin-bottom: 2rem;
 }
 
+.input-group__checkbox {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-bottom: 1rem;
+}
+
 .input {
     font-size: 1.75rem;
     padding: 1rem;
@@ -13,6 +20,11 @@
 
     &__label {
         font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    &__checkbox {
+        margin-left: 1rem;
         margin-bottom: 5px;
     }
 }

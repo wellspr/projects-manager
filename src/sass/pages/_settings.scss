@@ -1,0 +1,28 @@
+.settings {
+
+	display: flex;
+	align-items: center;
+
+	&__avatar {
+		margin: 2rem 0;
+		margin-right: 3rem;
+	}
+	
+	&__items {
+		flex-grow: 1;
+	}
+	
+	&__item {
+		margin-bottom: 1rem;
+		padding: 1rem;
+		border-bottom: 1px solid;
+	}
+}
+
+.avatar {
+	
+	&__base {
+		border-radius: 300px;
+		border: 1px solid;
+	}
+}

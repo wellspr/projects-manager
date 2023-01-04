@@ -6,11 +6,11 @@ const checkSession = async (key) => {
     return await db.get(key);
 };
 
-const createSession = async (user, remember) => {
+const createSession = async ({user, remember=false}) => {
 
     const expires = () => {
         if (remember) {
-            return 3600 * 24 * 30;
+            return 3600 * 24;
         }
         else {
             return 3600;

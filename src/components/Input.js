@@ -6,7 +6,9 @@ const Input = ({
     placeholder, 
     type="text", 
     value="", 
-    setValue 
+    setValue,
+    checked=false,
+    setChecked
 }) => {
 
     const { theme } = useOutletContext();
@@ -27,6 +29,25 @@ const Input = ({
                     rows={5} 
                     value={value}
                     onChange={e => setValue(e.target.value)}
+                />
+            </div>
+        );
+    }
+    if (type === "checkbox") {
+        return (
+            <div className="input-group__checkbox">
+                <label 
+                    htmlFor={id} 
+                    className="input__label"
+                    >
+                    { label }
+                </label>
+                <input 
+                    id={id} 
+                    className={`input input__checkbox input--theme__${theme}`}  
+                    type={type}
+                    checked={checked}
+                    onChange={e => setChecked(e.target.checked)}
                 />
             </div>
         );

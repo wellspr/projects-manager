@@ -1,13 +1,30 @@
 .search {
 
+    display: flex;
     flex-grow: 1;
-    margin: 0 2rem;
+    margin: 0 0.8rem;
+    position: relative;
+    transition: all 0.3s;
     
     &__input {
         border-radius: 10rem;
         padding: 1rem 2rem;
+        padding-right: 3rem;
         font-size: 1.4rem;
         width: 100%;
         border: none;
+    }
+
+    &__close-icon {
+        display: flex;
+        position: absolute;
+        right: 12px;
+        align-self: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &--hidden {
+            display: none;
+        }
     }
 }

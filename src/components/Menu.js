@@ -1,5 +1,5 @@
 // React Router Dom
-import { NavLink, useNavigate, useOutletContext, useRevalidator } from "react-router-dom";
+import { NavLink, useOutletContext } from "react-router-dom";
 
 // Icons
 import { HiOutlineUserCircle } from "react-icons/hi";
@@ -15,7 +15,7 @@ import DropdownButton from "./DropdownButton";
 import Button from "./Button";
 
 // Local Data Storage
-import { clearData } from "../local/sessionStorage";
+import { local } from "../local";
 
 
 const DefaultIcon = () => {
@@ -33,10 +33,7 @@ const NavButtons = () => {
 
 const Menu = () => {
     
-    const { session, theme, setTheme } = useOutletContext();
-
-    const revalidator = useRevalidator();
-    const navigate = useNavigate();
+    const { session, theme, setTheme, updateTheme } = useOutletContext();
 
     const buttonContent = () => {
         if (session) {
@@ -76,19 +73,21 @@ const Menu = () => {
 
     const logout = () => {
         users.logout()
-            .then(() => revalidator.revalidate())
+            .then(() => local.session.clearData())
             .catch(err => console.log(err))
-            .finally(() => {
-                clearData();
-                navigate("/");
-            });
+            .finally(() => window.location.reload());
+    };
+
+    const handleTheme = () => {
+        setTheme(theme==="light"?"dark":"light")
+        updateTheme(theme==="light"?"dark":"light");
     };
 
     return <div className="menu-wrapper">
         <div className="menu">
 
             <Button 
-                onClick={() => setTheme(theme==="light"?"dark":"light")} 
+                onClick={handleTheme} 
                 theme={theme}
                 >
                 {

@@ -1,26 +1,37 @@
-// React Router Dom
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
-
 // React
 import { useEffect, useState } from "react";
 
+// React Router Dom
+import { 
+    useLoaderData, 
+    useLocation, 
+    useNavigate, 
+    useOutletContext 
+} from "react-router-dom";
+
 // Components
+import { Component, Header } from "../components/Component";
 import AlertBox from "../components/AlertBox";
 import Button from "../components/Button";
 import Form from "../components/Form";
+import Controls from "../components/Controls";
+import DangerZone from "../components/DangerZone";
+import AuthRequiredBox from "../components/AuthRequiredBox";
 
 // API
 import { projects } from "../api";
-import Controls from "../components/Controls";
-import DangerZone from "../components/DangerZone";
-import { Component, Header } from "../components/Component";
+
+// Local Data
+import { local, temp } from "../local";
 
 
 const EditProject = () => {
 
-    const navigate = useNavigate();
-    const project = useLoaderData();
     const { theme } = useOutletContext();
+    const project = useLoaderData();
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -29,13 +40,12 @@ const EditProject = () => {
     const [githubLink, setGithubLink] = useState("");
     const [liveSite, setLiveSite] = useState("");
     const [thumbnails, setThumbnails] = useState([]);
-    const [completed, setCompleted] = useState(false);
+    const [workInProgress, setWorkInProgress] = useState(false);
+    const [published, setPublished] = useState(false);
 
     const [showAlert, setShowAlert] = useState(false);
+    const [showAuthBox, setShowAuthBox] = useState(false);
 
-    if (!project) {
-        throw new Error("Project not found...");
-    }
 
     useEffect(() => {
         setTitle(project.title || "");
@@ -45,11 +55,13 @@ const EditProject = () => {
         setGithubLink(project.githubLink || "");
         setLiveSite(project.liveSite || "");
         setThumbnails(project.thumbnails || []);
-        setCompleted(project.completed);
+        setWorkInProgress(project.workInProgress);
+        setPublished(project.published);
     }, [project]);
 
     const onSaveChanges = () => {
-        projects.updateProject({
+
+        const updates = {
             title,
             description,
             tags,
@@ -57,11 +69,53 @@ const EditProject = () => {
             githubLink,
             liveSite,
             thumbnails,
-            completed,
+            workInProgress,
+            published,
             dateModified: Date.now(),
-        }, project.key)
-            .then(() => navigate("/projects"))
-            .catch(err => console.log(err));
+        };
+
+        projects.updateProject(updates, project.key)
+            .then(() => {
+                /** Update projects local data */
+                local.projects.update(project.key, updates);
+
+                /** Navigate back to "/projects" */
+                navigate("/projects"); 
+            })
+            .catch(err => {
+                console.log("Could not save project details. ", err.message);
+                
+                /** Store updates to recover after authentication */
+                temp.setData("update", updates);
+                
+                if (err.response.status === 401) {
+                    /** Open alert box for authentication */
+                    console.log("Authentication required");
+                    temp.setData("navigationState", { nextUrl: location.pathname });
+                    setShowAuthBox(true);
+                }
+            });
+    };
+
+    const onDeleteProject = () => {
+        projects.deleteProject(project.key)
+            .then(() => {
+                /** Remove project from local */
+                local.projects.remove(project.key);
+
+                /** Navigate back */
+                navigate("/projects");
+            })
+            .catch(err => {
+                console.log("Could not delete project. ", err.message);
+                                
+                if (err.response.status === 401) {
+                    /** Open alert box for authentication */
+                    console.log("Authentication required");
+                    temp.setData("navigationState", { nextUrl: location.pathname });
+                    setShowAuthBox(true);
+                }
+            });
     };
 
     return <Component>
@@ -75,7 +129,8 @@ const EditProject = () => {
             githubLink={githubLink} setGithubLink={setGithubLink}
             liveSite={liveSite} setLiveSite={setLiveSite}
             thumbnails={thumbnails} setThumbnails={setThumbnails}
-            completed={completed} setCompleted={setCompleted}
+            workInProgress={workInProgress} setWorkInProgress={setWorkInProgress}
+            published={published} setPublished={setPublished}
             onSubmit={onSaveChanges} onSubmitLabel="Save Changes"
         />
 
@@ -121,11 +176,7 @@ const EditProject = () => {
                         type={"danger"}
                         theme={theme}
                         className="alert__btn"
-                        onClick={() => {
-                            projects.deleteProject(project.key)
-                            .then(r => navigate("/projects"))
-                            .catch(err => console.log(err));
-                        }}
+                        onClick={onDeleteProject}
                         >
                         { "Confirm" }
                     </Button>
@@ -142,6 +193,8 @@ const EditProject = () => {
             </div>
 
         </AlertBox>
+
+        <AuthRequiredBox show={showAuthBox} setShow={setShowAuthBox} />
     </Component>;
 };
 

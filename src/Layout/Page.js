@@ -1,5 +1,5 @@
 // React Router Dom
-import { Outlet, useOutletContext } from "react-router-dom";
+import { Outlet, ScrollRestoration, useOutletContext } from "react-router-dom";
 
 // Components
 import Footer from "./Footer";
@@ -17,6 +17,7 @@ const Page = () => {
             <Outlet context={ useOutletContext() }/>
         </Main>
         <Footer />
+        <ScrollRestoration /> {/* All pages will 'scroll to top' on location change. */}
     </div>;
 };
 

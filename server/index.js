@@ -15,8 +15,9 @@ app.use(cors({
 }));
 
 app.use("/", async (req, res, next) => {
-    if (req.cookies && req.cookies[process.env.COOKIE_NAME]) {
-        const response = await checkSession(req.cookies[process.env.COOKIE_NAME]);
+    const cookieName = process.env.COOKIE_NAME;
+    if (req.cookies && req.cookies[cookieName]) {
+        const response = await checkSession(req.cookies[cookieName]);
         req.session = response;
     }
     next();

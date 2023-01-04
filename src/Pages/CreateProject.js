@@ -1,23 +1,35 @@
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // React Router Dom
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { 
+    useLoaderData, 
+    useLocation, 
+    useNavigate, 
+    useOutletContext 
+} from "react-router-dom";
 
 // Components
-import Button from "../components/Button";
+import { Component, Header } from "../components/Component";
 import Form from "../components/Form";
+import Button from "../components/Button";
+import Controls from "../components/Controls";
+import AuthRequiredBox from "../components/AuthRequiredBox";
 
 // API
 import { projects } from "../api";
-import Controls from "../components/Controls";
-import { Component, Header } from "../components/Component";
+
+// Local Storage
+import { local, temp } from "../local";
 
 
 const CreateProject = () => {
 
-    const navigate = useNavigate();
     const { session, theme } = useOutletContext();
+    const savedProject = useLoaderData();
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -26,10 +38,37 @@ const CreateProject = () => {
     const [githubLink, setGithubLink] = useState("");
     const [liveSite, setLiveSite] = useState("");
     const [thumbnails, setThumbnails] = useState([]);
-    const [completed, setCompleted] = useState(false);
+    const [workInProgress, setWorkInProgress] = useState(false);
+    const [published, setPublished] = useState(false);
 
+    const [showAuthBox, setShowAuthBox] = useState(false);
+
+    useEffect(() => {
+        console.log("Published: ", published, "Work In Progress: ", workInProgress);
+    }, [published, workInProgress]);
+
+    /** In case there is some saved project */
+    useEffect(() => {
+        if (savedProject) {
+            setTitle(savedProject.title || "");
+            setDescription(savedProject.description || "");
+            setTags(savedProject.tags || []);
+            setTechstack(savedProject.techstack || []);
+            setGithubLink(savedProject.githubLink || "");
+            setLiveSite(savedProject.liveSite || "");
+            setThumbnails(savedProject.thumbnails || []);
+            setWorkInProgress(savedProject.workInProgress || false);
+            setPublished(savedProject.published || false);
+        }
+
+        temp.removeData("saved_project");
+    }, [savedProject]);
+
+
+    /** onAddProject */
     const onAddProject = () => {
-        projects.addProject({
+
+        const project = {
             title,
             description,
             tags,
@@ -37,17 +76,41 @@ const CreateProject = () => {
             githubLink,
             liveSite,
             thumbnails,
-            completed,
+            workInProgress,
+            published,
             dateAdded: Date.now(),
             dateModified: null,
             userId: session.userId,
-        })
-        .then(() => navigate("/projects"))
-        .catch(err => console.log(err));
+        };
+
+        projects.addProject(project)
+            .then(r => {
+                /** Add project to local data */
+                local.projects.add(r.data);
+                
+                /** Navigate back to "/projects" */
+                navigate("/projects", {
+                    state: { scrollToTop: true }
+                });
+            })
+            .catch(err => {
+                console.log("Could not create new project. ", err.message);
+                    
+                /** Store updates to recover after authentication */
+                temp.setData("saved_project", project);
+                
+                if (err.response.status === 401) {
+                    /** Open alert box for authentication */
+                    console.log("Authentication required");
+                    temp.setData("navigationState", { nextUrl: location.pathname });
+                    setShowAuthBox(true);
+                }
+            });
     };
 
     return <Component>
         <Header title="Create a new Project" theme={theme}/>
+
         <Form 
             title={title} setTitle={setTitle}
             description={description} setDescription={setDescription}
@@ -56,9 +119,11 @@ const CreateProject = () => {
             githubLink={githubLink} setGithubLink={setGithubLink}
             liveSite={liveSite} setLiveSite={setLiveSite}
             thumbnails={thumbnails} setThumbnails={setThumbnails}
-            completed={completed} setCompleted={setCompleted}
+            workInProgress={workInProgress} setWorkInProgress={setWorkInProgress}
+            published={published} setPublished={setPublished}
             onSubmit={onAddProject} onSubmitLabel="Add Project"
         />
+        
         <Controls>
             <Button 
                 type="action" 
@@ -80,6 +145,8 @@ const CreateProject = () => {
                 { "Cancel" }
             </Button>
         </Controls>
+
+        <AuthRequiredBox show={showAuthBox} setShow={setShowAuthBox} />
     </Component>;
 };
 

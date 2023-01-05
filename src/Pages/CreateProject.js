@@ -43,9 +43,6 @@ const CreateProject = () => {
 
     const [showAuthBox, setShowAuthBox] = useState(false);
 
-    useEffect(() => {
-        console.log("Published: ", published, "Work In Progress: ", workInProgress);
-    }, [published, workInProgress]);
 
     /** In case there is some saved project */
     useEffect(() => {

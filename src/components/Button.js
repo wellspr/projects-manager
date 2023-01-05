@@ -1,8 +1,12 @@
-import { useRef } from "react";
-
-const Button = ({ type, size, theme, disabled, className, onClick, children }) => {
-
-    const btnRef = useRef(null);
+const Button = ({ 
+    type, 
+    size, 
+    theme, 
+    className, 
+    disabled, 
+    onClick, 
+    children,
+}) => {
 
     let classNameString = "button";
 
@@ -20,15 +24,11 @@ const Button = ({ type, size, theme, disabled, className, onClick, children }) =
         classNameString += ` ${className}`;
     }
     
-//    console.log(btnRef && btnRef.current.offsetWidth);
-//    console.log(btnRef && btnRef.current.style);
-
     return (
         <button 
             className={classNameString} 
             onClick={onClick}
             disabled={disabled}
-            ref={btnRef}
             >
             { children }
         </button>

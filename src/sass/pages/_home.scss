@@ -1,0 +1,13 @@
+.home-heading {
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin: 3rem;
+
+	&__header {
+		font-size: 3rem;
+		text-align: center;
+	}
+}

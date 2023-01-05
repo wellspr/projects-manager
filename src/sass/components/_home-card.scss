@@ -1,0 +1,14 @@
+.home-card {
+	border: 1px solid;
+	border-radius: 1rem;
+	margin: 2rem;
+
+	&__link {
+		display: block;
+		padding: 3rem;
+
+		text-align: center;
+		font-size: 1.6rem;
+	}
+
+}

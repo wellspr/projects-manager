@@ -119,7 +119,9 @@ const EditProject = () => {
     };
 
     return <Component>
-        <Header title="Edit Project" theme={theme}/>
+        <Header title="Edit Project" theme={theme} backButton={{ to: "/projects" }}>
+
+        </Header>
 
         <Form 
             title={title} setTitle={setTitle}

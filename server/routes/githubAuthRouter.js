@@ -10,6 +10,7 @@ const { Github, githubAuth } = require("../auth/github");
 const github = new Github();
 
 githubAuthRouter.get("/login", (req, res) => {
+    /** TODO: scope can be passed to loginUrl, and must be received somehow (via query ?) */
     res.send(github.loginUrl());
 });
 

@@ -30,7 +30,11 @@ const Projects = () => {
         setFilteredProjects(
             projects
                 .filter(project => {
-                    return String(project.title + project.description)
+                    const tags = Object.values(project.tags).reduce((total, tag) => {
+                        return total + " " + tag.name;
+                    }, "");
+
+                    return String(project.title + project.description + tags)
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase());
                 })

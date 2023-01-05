@@ -6,7 +6,6 @@ import { HiCheck } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 import Tags from "./Tags";
-import Button from "./Button";
 
 
 const Project = ({ project, theme }) => {
@@ -16,14 +15,15 @@ const Project = ({ project, theme }) => {
 	return <div className="project">
 		<h3 className="project__title">
 			{ project.title }
-			<Button className={`project__title__button button--theme__${theme}`}>
-				<Link to={`/projects/project/${project.key}`}>
-					<div className="project__title__link">
-						<p>View</p>
-						<AiOutlineEye size={20} />	
-					</div>
-				</Link>
-			</Button>
+			<Link 
+				to={`/projects/project/${project.key}`}
+				className={`project__title__button button button--theme__${theme}`}
+				>
+				<div className="project__title__link">
+					<p>View</p>
+					<AiOutlineEye size={20} />	
+				</div>
+			</Link>
 		</h3>
 		<p className="project__desc">{ project.description }</p>
 		<div className="project__linkList">

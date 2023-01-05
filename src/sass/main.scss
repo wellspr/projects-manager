@@ -14,6 +14,7 @@
 @import "pages/project";
 @import "pages/error";
 @import "pages/settings";
+@import "pages/home";
 
 // Components
 @import "components/brand";
@@ -21,6 +22,7 @@
 @import "components/buttons";
 @import "components/input";
 @import "components/tags-editor";
+@import "components/techstack-editor";
 @import "components/tags";
 @import "components/form";
 @import "components/list";
@@ -32,6 +34,7 @@
 @import "components/loading";
 @import "components/dropdown";
 @import "components/component";
+@import "components/home-card";
 
 // Layout
 @import "layout/layout";

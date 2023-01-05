@@ -15,7 +15,7 @@ const Footer = () => {
             <span className="footer__item">The Projects Manager</span>
             {"|"}
             <a 
-                href="https://github.com/wellspr" 
+                href="https://github.com/wellspr/projects-manager" 
                 target="_blank" 
                 rel="noreferrer"
                 className="footer__item footer__github__link"

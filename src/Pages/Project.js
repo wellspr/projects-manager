@@ -11,12 +11,12 @@ const Project = () => {
 	const { theme } = useOutletContext();
     const project = useLoaderData();
 
-	console.log(project)
-
 	const renderTechstack = () => {
 		return project.techstack.map(tech => {
 			const key = Math.floor(Math.random()*100000);
-			return <li key={key}>{ tech }</li>
+			return <li key={key}>
+				{ tech.category }: { tech.description }
+			</li>
 		});
 	}
 
@@ -24,7 +24,7 @@ const Project = () => {
 	const updated = project.dateModified && new Date(project.dateModified);
 
 	return <Component>
-		<Header title="Project" theme={theme}>
+		<Header title="Project" theme={theme} backButton={{ to: "/projects" }}>
 			<div className="project-view__header__link">
 				<Link to={`/projects/edit/${project.key}`}>Edit</Link>
 			</div>

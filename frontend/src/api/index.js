@@ -1,8 +1,11 @@
 // Import axios
 import axios from "axios";
 
+
 /** Projects API */
-const api = axios.create({ baseURL: "/projects" });
+const api = axios.create({ 
+    baseURL: process.env.NODE_ENV==="development" ? "/projects" : "/api/projects" 
+});
 
 export const projects = { 
     getProjectsByUserId: async (userId) => await api.get(`/user/${userId}`),
@@ -15,7 +18,9 @@ export const projects = {
 
 
 /** Auth API */
-const authApi = axios.create({ baseURL: "/auth/github" });
+const authApi = axios.create({ 
+    baseURL: process.env.NODE_ENV==="development" ? "/auth/github" : "/api/auth/github" 
+});
 
 export const githubAuth = { 
     githubLogin: async () => authApi.get("/login"), 
@@ -24,7 +29,9 @@ export const githubAuth = {
 
 
 /** Users API */
-const usersApi = axios.create({ baseURL: "/users" });
+const usersApi = axios.create({ 
+    baseURL: process.env.NODE_ENV==="development" ? "/users" : "/api/users" 
+});
 
 export const users = {
     checkSession: async () => usersApi.get("/check-session"),
@@ -33,7 +40,9 @@ export const users = {
 
 
 /** Settings API */
-const settingsApi = axios.create({ baseURL: "/settings" });
+const settingsApi = axios.create({ 
+    baseURL: process.env.NODE_ENV==="development" ? "/settings" : "/api/settings" 
+});
 
 export const settings = {
     get: async () => settingsApi.get("/"),

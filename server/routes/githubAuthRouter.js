@@ -70,7 +70,9 @@ githubAuthRouter.get("/callback", githubAuth, async (req, res) => {
         const session = await createSession({user: data, remember: true});
 
         // Send a cookie to the user's browser, along with the response.
-        res.cookie(process.env.COOKIE_NAME, session.key);
+        res.cookie(process.env.COOKIE_NAME, session.key, {
+            sameSite: "lax"
+        });
         res.json(data);
     }
 });

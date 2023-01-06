@@ -16,7 +16,7 @@ const Header = ({ theme, title, children, backButton=undefined }) => {
 		<div className="component__header__title-wrapper">
 			{
 				backButton &&
-				<Button onClick={() => navigate(backButton.to)}>
+				<Button onClick={() => navigate(backButton.to)} theme={theme}>
 					<IoChevronBackOutline size={20}/>
 				</Button>
 			}

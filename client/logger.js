@@ -12,14 +12,15 @@ module.exports = {
 	},
 
 	appInfo: () => {
-		const port = process.env.PORT
-		const env = process.env.ENV
+		const port = process.env.PORT;
+		const env = process.env.ENV;
+		const devAPI = process.env.DEVELOPMENT_API
 		
 		if (env === "development") {
 			console.info(
-				`App running in development mode, listening on port ${port}`, 
-				`\nApp url: http://localhost:${port}`,
-				"\nDevelopment API:", env
+				`[app] App running in development mode, listening on port ${port}`, 
+				`\n[app] App url: http://localhost:${port}`,
+				"\n[app] API url:", devAPI
 			);
 		} else {
 			console.info("App started");

@@ -73,7 +73,7 @@ const Menu = () => {
 
     const logout = () => {
         users.logout()
-            .then(() => local.session.clearData())
+            .then(() => local.session.removeData())
             .catch(err => console.log(err))
             .finally(() => window.location.reload());
     };

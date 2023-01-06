@@ -1,0 +1,25 @@
+{
+  "name": "projects-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:server": "cd ./server && npm run dev && cd ..",
+    "dev:client": "cd ./client && npm run dev",
+    "dev": "npm-run-parallel dev:server dev:client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellspr/projects-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wellspr/projects-manager/issues"
+  },
+  "homepage": "https://github.com/wellspr/projects-manager#readme",
+  "devDependencies": {
+    "npm-run-parallel": "^0.6.0"
+  }
+}

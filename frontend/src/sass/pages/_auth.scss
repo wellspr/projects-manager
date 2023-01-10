@@ -4,6 +4,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin: 0 3rem;
 
 	&__button {
 		margin-top: 6rem;
@@ -11,10 +12,18 @@
 		&__content {
 			display: flex;
 			justify-content: center;
-			align-content: center;
+			align-items: center;
+			
+			//&__icon {}
 			
 			&__label {
-				margin-left: 1rem;
+				margin-left: 1.4rem;
+				text-align: center;
+				flex-wrap: wrap;
+
+				@media screen and (max-width: 380px) {
+					font-size: 1.6rem;
+				}
 			}
 		}
 	}

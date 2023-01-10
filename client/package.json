@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config index.js dotenv_config_path=.env.local",
+    "dev:test-prod": "nodemon -r dotenv/config index.js dotenv_config_path=.env",
     "start": "node index.js",
     "clean": "rm -rf ./public/*",
     "build": "npm run clean && (cd ../frontend && npm run build) && npm run copy",
@@ -13,10 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-http-proxy": "^1.6.3",
+    "express-http-proxy": "^1.6.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
     "nodemon": "^2.0.20"
   }
 }

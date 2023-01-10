@@ -1,7 +1,7 @@
 let apiBaseURL;
 
 /** Production */
-if (process.env.DETA_RUNTIME) {
+if (process.env.DETA_RUNTIME || process.env.ENV==="production") {
 	apiBaseURL = process.env.PRODUCTION_API;
 }
 

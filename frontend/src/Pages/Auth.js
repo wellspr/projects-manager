@@ -29,7 +29,7 @@ const Auth = () => {
     };
 
 	return <div className={`auth auth--theme__${theme}`}>
-		<Image svg={svgImage} />
+		<Image svg={svgImage} size={200} />
 		<Brand size="large" />
 		<Button 
 			className="auth__button"
@@ -43,15 +43,24 @@ const Auth = () => {
 	</div>;
 };
 
-const Image = ({ svg }) => {
-	return <div style={{ marginBottom: "3rem" }}>
-		<img src={svg} alt={"svg"} height={200} />
+const Image = ({ svg, size }) => {
+	return <div 
+		style={{ 
+			marginBottom: "3rem", 
+			height: `${size+2}px`,
+			borderRadius: "100px",
+			border: "1px solid"
+		}}
+		>
+		<img src={svg} alt={"svg"} height={size} />
 	</div>
 };
 
 const Content = () => {
 	return <div className="auth__button__content">
-		<ImGithub />
+		<div className="auth__button__content__icon">
+			<ImGithub size={30}/>
+		</div>
 		<span className="auth__button__content__label">Continue with Github</span>
 	</div>;
 };

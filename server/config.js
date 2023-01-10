@@ -1,7 +1,9 @@
-const port = 4000;
+const port = process.env.PORT;
+const origin = process.env.ORIGIN;
 
 const starter = () => {
     console.log(`Server listening on port ${port}`);
+    console.log(`Receives requests from origin ${origin}`);
 };
 
-module.exports = {port, starter};
+module.exports = {port, origin, starter};
